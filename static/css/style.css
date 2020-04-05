@@ -8,3 +8,23 @@ body,
 html {
   height: 100%;
 }
+.parent-container{
+  /* border:solid; */
+  /* border-width: 1px; */
+}
+.dashboard-heading{
+  /* border:solid; */
+  /* border-width: 1px; */
+  margin: auto;
+  width: 50%;
+  /* border: 1px solid; */
+  padding: 10px;
+  text-align: center;  
+}
+.card-body{
+  text-align: center;  
+}
+#container{
+  border:solid;
+  border-width: 1px;  
+}
