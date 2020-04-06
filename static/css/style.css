@@ -51,7 +51,8 @@ body {
 #top-right,
 #bottom-left,
 #bottom-right,
-#bottom-middle{
+#bottom-middle,
+#footnotes-container{
   border:1px solid black;
   border-radius: 8px;
 }
