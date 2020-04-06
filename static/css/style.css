@@ -1,30 +1,68 @@
+html,
 body {
-  padding: 0px;
-  margin: 0px;
+  height: 100%;
+  width: 100%;
 }
 
-#map,
-body,
-html {
-  height: 100%;
+.navbar {
+  background-color: #FFFFFF;
+  padding: 1% 0;
+  font-size: 12px;
 }
-.parent-container{
-  /* border:solid; */
-  /* border-width: 1px; */
+
+.navbar-brand {
+  min-height: 60px;
+  padding: 0 20px 5px;
+  font-size: 16px
 }
-.dashboard-heading{
-  /* border:solid; */
-  /* border-width: 1px; */
-  margin: auto;
-  width: 50%;
-  /* border: 1px solid; */
-  padding: 10px;
-  text-align: center;  
+
+#logo {
+  height: 55px;
+  width: 55px;
+  margin: 10px 20px 10px 20px;
+  display: inline-block;
 }
-.card-body{
-  text-align: center;  
+
+.navbar-default .navbar-nav li a {
+  color: #707b7c;
 }
-#container{
-  border:solid;
-  border-width: 1px;  
+
+#navbar-collapse-main {
+  margin-right: 30px
+}
+
+#heading-container {
+  padding-top: 90px;
+  padding-left: 10px;
+}
+
+#map {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 400px;
+  width: 100%;
+}
+
+.container{
+  border:1px solid black;
+}
+#top-left,
+#top-right,
+#bottom-left,
+#bottom-right,
+#bottom-middle{
+  border:1px solid black;
+  border-radius: 8px;
+}
+#bottom-left{  
+  float:left;
+}
+#bottom-right{
+  float:right;
+  /* margin:-0px; */
+}
+#bottom-middle{
+  /* padding:10px; */
+  /* margin:20px; */
 }
