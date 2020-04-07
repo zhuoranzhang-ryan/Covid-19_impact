@@ -1,5 +1,5 @@
 var myMap = L.map("map", {
-  center: [37.7749, -122.4194],
+  center: [20, 20],
   zoom: 2
 });
 
@@ -10,28 +10,30 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: API_KEY
 }).addTo(myMap);
 
+
+
 // var url = "https://data.sfgov.org/resource/cuks-n6tp.json?$limit=10000";
 var filepath = "static/data/covid_all.json"
 
-d3.json(filepath, function(response) {
+d3.json(filepath, function (response) {
 
   console.log(response);
 
-  var heatArray = [];
+  // var heatArray = [];
 
-  for (var i = 0; i < response.length; i++) {
-    // var location = response[i].location;
+  // for (var i = 0; i < response.length; i++) {
+  //   // var location = response[i].location;
 
-    if (response[i].Cases && response[i].Status == 'confirmed') {
-      heatArray.push([response[i].Lat, response[i].Lon, response[i].Cases]);
-    }
-  }
+  //   if (response[i].Cases && response[i].Status == 'confirmed') {
+  //     heatArray.push([response[i].Lat, response[i].Lon, response[i].Cases]);
+  //   }
+  // }
 
-  var heat = L.heatLayer(heatArray
-    , {
-    // radius: 20,
-    blur: 40
-  }
-  ).addTo(myMap);
+  // // var heat = L.heatLayer(heatArray
+  // //   , {
+  // //   // radius: 20,
+  // //   blur: 40
+  // // }
+  // ).addTo(myMap);
 
 });
