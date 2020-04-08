@@ -19,7 +19,7 @@ var svg = d3.select("#US-map")
 d3.json("static/data/us.json").then(mapdata => {
     d3.json(filepath).then(response => {
 
-            var projection = d3.geoAlbers()
+            var projection = d3.geoAlbersUsa()
                             .translate([svgWidth/2, svgHeight/2])
                             .scale(900)
 
@@ -81,7 +81,7 @@ slider.oninput = function() {
     output.innerHTML = this.value;
     index = this.value;
 
-    var projection = d3.geoAlbers()
+    var projection = d3.geoAlbersUsa()
                             .translate([svgWidth/2, svgHeight/2])
                             .scale(900)
 
