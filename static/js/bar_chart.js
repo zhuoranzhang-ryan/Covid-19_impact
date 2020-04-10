@@ -6,20 +6,6 @@ function initializeDashboard() {
 
         var totalDays = Object.keys(dataSet).length;
 
-        // for (let idx = 0; idx < totalDays; idx++) {
-        //     var dateString = Object.keys(dataSet)[idx];
-        //     var records = Object.values(dataSet)[idx]
-        //     var statesWithTotalCasesDict = {}
-
-        //     var statesWithTotalCases = sumCasesPerState(records);
-
-        //     statesWithTotalCasesDict[dateString] = statesWithTotalCases;
-
-        //     console.log(statesWithTotalCasesDict);
-
-        //     console.log("\n");
-        // }
-
         Object.entries(dataSet).forEach(function ([date, records]) {
             var statesWithTotalCasesDict = {}
 
