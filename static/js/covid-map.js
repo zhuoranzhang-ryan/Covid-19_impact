@@ -56,8 +56,7 @@ getData(mapfile).then(mapdata => {
     getData(covid_confirm_file).then(response => {
 
         var data = Object.values(response)[0];
-        var dates = Object.keys(response);
-        var slider_max = dates.length;
+        var slider_max = Object.keys(response).length;
         d3.select(".slider").attr("max", slider_max-1);
 
         var confirmLayer = d3.select(".map-svg").append('g').attr('class', "layers")
@@ -74,27 +73,23 @@ getData(mapfile).then(mapdata => {
             var coords = projection([d.Lon, d.Lat])
             if (coords) {return coords[1];}
         });
-        // playSlider(startday);    
-        
+        var track_date;    
         slider.oninput = function() {
+            track_date = this.value;
             output.innerHTML = this.value;
             let index = this.value;
-            var data = Object.values(response)[index];
-            var dates = Object.keys(response);
-
-            var slider_max = dates.length;
-            d3.select(".slider").attr("max", slider_max-1)
-            
-            d3.selectAll(".layers").html('');
-            var confirmLayer = d3.select(".layers")
+            let data = Object.values(response)[index];
             drawCircleLayer(confirmLayer, data, "covid-confirmed", projection)
-            
+            // console.log(track_date);          
         };
-        
+        console.log(slider.value);
+        // playSlider(track_date, response, projection);
+
+        // playSlider(11, response, projection);
 });
 })
 
-// colorScale
+// colorScale function
 var colorScale = d3.scaleLinear()
     .domain(d3.ticks(0, 50000, 500))
     .range([ "#FF9999", "#FF6666", "#FF3333", "#FF0000"]);
@@ -118,43 +113,38 @@ function drawCircleLayer(layer, layerdata, layerClass, projection) {
 }
 
 slider.addEventListener("input", function() {
-    var x = slider.value/slider.max * 100;
-    var color = `linear-gradient(90deg, rgb(255, 51, 51) ${x}%, rgb(214,214,214) ${x}%)`;
+    let x = slider.value/slider.max * 100;
+    let color = `linear-gradient(90deg, rgb(255, 51, 51) ${x}%, rgb(214,214,214) ${x}%)`;
     slider.style.background = color;
 });
 
-function moveSlider(input) {
-    slider.value = input;
-    slider.oninput = function() {
-        console.log(this.value);
-        output.innerHTML = this.value;
-        let index = this.value;
-    
-        var data = Object.values(response)[index];
-        var dates = Object.keys(response);
-        var slider_max = dates.length;
-        d3.select(".slider").attr("max", slider_max-1)
-        
-        d3.selectAll(".layers").html('');
-        var confirmLayer = d3.select(".layers")
-        drawCircleLayer(confirmLayer, data, "covid-confirmed", projection)
-};
-    slider.addEventListener("input", function() {
-        var x = slider.value/slider.max * 100;
-        var color = `linear-gradient(90deg, rgb(255, 51, 51) ${x}%, rgb(214,214,214) ${x}%)`;
-        slider.style.background = color;
-    });
-}
-
-var startday = 1;
-
-function playSlider(startday) {
+async function playSlider(startday, response, projection) {
+    // var startday = await function() {
+    //     if (!track_date) {
+    //         console.log(track_date);
+    //         return track_date;
+    //     }
+    // };
     setInterval(() => {
-        moveSlider(startday);
+        moveSlider(startday, response, projection);
         startday += 1;
-        // console.log(startday);
-    }, 300);  
+    }, 1000);  
 }
-// playSlider(init);
 
-// moveSlider(70);
+async function moveSlider(input, response, projection) {
+    slider.value = input;
+    output.innerHTML = slider.value;
+    let index = slider.value;
+    console.log(index);
+    // console.log(response);
+    let data = Object.values(response)[index];
+    // let dates = Object.keys(response);    
+    d3.selectAll(".layers").html('');
+    let confirmLayer = d3.select(".layers")
+    drawCircleLayer(confirmLayer, data, "covid-confirmed", projection)
+
+    let x = slider.value/slider.max * 100;
+    let color = `linear-gradient(90deg, rgb(255, 51, 51) ${x}%, rgb(214,214,214) ${x}%)`;
+    slider.style.background = color;
+    
+}
