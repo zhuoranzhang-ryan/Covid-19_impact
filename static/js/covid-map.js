@@ -27,7 +27,7 @@ async function getData(url) {
 
 var slider = document.getElementById("myRange");
 var output = document.getElementById("value");
-output.innerHTML = slider.value;
+output.innerHTML = '';
 var button = document.getElementById("play-button");
 
 getData(mapfile).then(mapdata => {
@@ -56,29 +56,15 @@ getData(mapfile).then(mapdata => {
 
     getData(covid_confirm_file).then(response => {
 
-        var data = Object.values(response)[0];
         var slider_max = Object.keys(response).length;
-        d3.select(".slider").attr("max", slider_max-1);
-
+        d3.select(".slider").attr("max", slider_max);
+        console.log(slider_max);
         var confirmLayer = d3.select(".map-svg").append('g').attr('class', "layers")
-        confirmLayer.selectAll(".covid-confirmed")
-        .data(data)
-        .enter().append("circle")
-        .attr("class", "covid-confirmed")
-        .attr("r", d => d.Cases)
-        .attr("cx", d => {
-            var coords = projection([d.Lon, d.Lat]);
-            if (coords) {return coords[0];}
-        })
-        .attr("cy", d => {
-            var coords = projection([d.Lon, d.Lat])
-            if (coords) {return coords[1];}
-        });
 
         let track_date = 0;
         slider.oninput = function() {
-            track_date = +this.value;
-            let index = this.value;
+            track_date = +this.value - 1;
+            let index = this.value - 1;
             let data = Object.values(response)[index];
             let dates = Object.keys(response);  
             output.innerHTML = dates[index];
@@ -96,10 +82,17 @@ getData(mapfile).then(mapdata => {
                 console.log("Current date:", play_flag);
                 button.innerHTML = 'pause';
                 timer = setInterval(() => {
-                    moveSlider(track_date, response, projection);
-                    // console.log(track_date);
-                    track_date += 1;
-            }, 100);
+                    if (track_date == slider_max + 1) {
+                        // moveSlider(track_date, response, projection);
+                        clearInterval(timer);
+                        console.log("Max date reached");
+                        button.innerHTML = 'play'
+                        play_flag = false;
+                    } else {
+                        moveSlider(track_date, response, projection);
+                        track_date += 1;
+                    }      
+            }, 200);
             } else if (play_flag) {
                 play_flag = false;
                 console.log("It is not playing, change text to play");
@@ -114,7 +107,7 @@ getData(mapfile).then(mapdata => {
 var colorScale = d3.scaleLinear()
     .domain(d3.ticks(0, 50000, 500))
     // .range([ "#FF9999", "#FF6666", "#FF3333", "#FF0000"]);
-    .range(["green", "yellow", "red"]);
+    .range(["#5BB902", "#FF8503", "#FF5959", "#FF0000"]);
 
 function drawCircleLayer(layer, layerdata, layerClass, projection) {
     layer.html('');
@@ -126,7 +119,7 @@ function drawCircleLayer(layer, layerdata, layerClass, projection) {
         // .attr("r", d => {retutn (Math.log2(d.Cases)+2)})
         .attr("cx", d => {
             var coords = projection([d.Lon, d.Lat]);
-            if (coords) {return coords[0];}
+            if (coords) { return coords[0];}
         })
         .attr("fill", d => colorScale(d.Cases))
         .attr("cy", d => {
@@ -143,7 +136,7 @@ slider.addEventListener("input", function() {
 
 function moveSlider(input, response, projection) {
     slider.value = input;
-    let index = slider.value;
+    let index = slider.value - 1;
     console.log(index);
     // console.log(response);
     let data = Object.values(response)[index];
