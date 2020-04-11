@@ -18,6 +18,8 @@ var svg = d3.select("#US-map")
 
 const mapfile = "static/data/us.json";
 const covid_confirm_file = "static/data/covid_us_confirmed.json";
+const covid_deaths_file = "static/data/covid_us_deaths.json";
+const covid_recovered_file = "static/data/covid_us_recovered.json";
 
 async function getData(url) {
     let response = await fetch(url);
@@ -55,11 +57,17 @@ getData(mapfile).then(mapdata => {
         .attr("d", path)
 
     getData(covid_confirm_file).then(response => {
+    getData(covid_deaths_file).then(deathsData => {
+    getData(covid_recovered_file).then (recoveredData => {
 
         var slider_max = Object.keys(response).length;
         d3.select(".slider").attr("max", slider_max);
         console.log(slider_max);
+        console.log(response);
         var confirmLayer = d3.select(".map-svg").append('g').attr('class', "layers")
+        let data = Object.values(response)[0];
+        drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
+        initializeBarchart(0, response, recoveredData, deathsData);
 
         let track_date = 0;
         slider.oninput = function() {
@@ -68,8 +76,8 @@ getData(mapfile).then(mapdata => {
             let data = Object.values(response)[index];
             let dates = Object.keys(response);  
             output.innerHTML = dates[index];
-
-            drawCircleLayer(confirmLayer, data, "covid-confirmed", projection)
+            drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
+            initializeBarchart(index, response, recoveredData, deathsData);
             console.log(track_date);          
         };
         
@@ -83,13 +91,13 @@ getData(mapfile).then(mapdata => {
                 button.innerHTML = 'pause';
                 timer = setInterval(() => {
                     if (track_date == slider_max + 1) {
-                        // moveSlider(track_date, response, projection);
                         clearInterval(timer);
                         console.log("Max date reached");
-                        button.innerHTML = 'play'
+                        button.innerHTML = 'play';
                         play_flag = false;
                     } else {
                         moveSlider(track_date, response, projection);
+                        initializeBarchart(track_date - 1, response, recoveredData, deathsData);
                         track_date += 1;
                     }      
             }, 200);
@@ -100,6 +108,10 @@ getData(mapfile).then(mapdata => {
                 clearInterval(timer);
             }
         })
+        
+        
+    });
+    });      
 });
 })
 

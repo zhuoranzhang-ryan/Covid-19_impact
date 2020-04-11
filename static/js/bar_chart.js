@@ -62,7 +62,7 @@ function sumCasesPerState(array) {
     // Copy array and set it to zero
     var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!    
     totalCasesPerState.fill(0);
-
+    console.log(array.length);
     for (let idx = 0; idx < array.length; idx++) {
         // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
 
@@ -181,7 +181,7 @@ function sortDictionary(obj) {
     var items = Object.keys(obj).map(function (key) {
         return [key, obj[key]];
     });
-    console.log(items);
+    // console.log(items);
 
     items.sort(function (first, second) {
         return second[1][0] - first[1][0];
@@ -226,10 +226,12 @@ function createStackedBarChart(dateString, sortedCovidData) {
         name: "Confirmed",
         // text: labels,
         marker: {
-            color: 'rgba(50,171,96,0.6)',
+            color: '#FF0000',
+            opacity: 0.5,
             line: {
-                color: 'rgba(50,171,96,1.0)',
-                width: 0
+                color: '#FF0000',
+                width: 1,
+                opacity: 0.7
             }
         },
         hovertemplate:
@@ -257,6 +259,15 @@ function createStackedBarChart(dateString, sortedCovidData) {
         type: "bar",
         orientation: "h",
         name: "Deaths",
+        marker: {
+            color: '#636363',
+            opacity: 0.5,
+            line: {
+                color: 'black',
+                width: 1,
+                opacity: 0.7
+            }
+        },
         // text: labels,
         // marker: {
         //     color: 'rgba(50,171,96,0.6)',
@@ -309,7 +320,10 @@ function createStackedBarChart(dateString, sortedCovidData) {
     Plotly.newPlot("stacked_bar_chart", data, layout, { displayModeBar: false });
 }
 
-function initializeDashboard() {
+// initializeBarchart(idx,confirmedData, recoveredData, deathsData)
+
+
+function initializeDashboard(idx) {
     d3.json(confirmedCases).then(function (confirmedData) {
         d3.json(recoveredCases).then(function (recoveredData) {
             d3.json(deathCases).then(function (deathsData) {
@@ -319,7 +333,7 @@ function initializeDashboard() {
 
                 var totalDays = Object.keys(confirmedData).length;
 
-                for (let idx = 70; idx < 71; idx++) {
+                // for (let idx = 70; idx < 71; idx++) {
                     var dateString = Object.keys(confirmedData)[idx];
 
                     var records = Object.values(confirmedData)[idx];
@@ -353,47 +367,7 @@ function initializeDashboard() {
 
                     createStackedBarChart(dateString, sortedAllCasesPerStateDict);
 
-
-                    // var sortedSumOfAllCasesPerStateDict = sort_object(sumOfAllCasesPerStateDict);
-                    // console.log(sortedSumOfAllCasesPerStateDict);
-
-                    // // Sum All cases for each state to compute percentage
-                    // var sumOfAllCasesPerStateDict = {}
-                    // Object.keys(sumOfConfirmed).forEach(function (state) {
-                    //     sumOfAllCasesPerStateDict[state] = (sumOfConfirmed[state] + sumOfRecovered[state] + sumOfDeaths[state]);
-                    // })
-                    // console.log(sumOfAllCasesPerStateDict);
-
-
-
-                    // var statesWithTotalCasesDict = {}
-                    // statesWithTotalCasesDict[dateString] = [sumOfConfirmed, sumOfRecovered, sumOfDeaths];
-
-                    // console.log(statesWithTotalCasesDict);
-
-                    // console.log("\n");
-
-                    // console.log(sumOfConfirmed);
-                    // console.log(sumOfRecovered);
-                    // console.log(sumOfDeaths);
-
-
-                    // console.log(Object.values(confirmedData));
-                    // console.log(Object.values(recoveredData));
-                    // console.log(Object.values(deathsData));
-
-                    // var statesWithTotalCasesDict = {}
-
-
-
-                    //     statesWithTotalCasesDict[dateString] = statesWithTotalCases;
-
-                    //     console.log(statesWithTotalCasesDict);
-
-                    //     console.log("\n");
-
-                    //     createBarChart(dateString, statesWithTotalCases);
-                }
+                // }
 
 
             });
@@ -402,5 +376,47 @@ function initializeDashboard() {
     // initializeDashboard();
 }
 
-initializeDashboard();
+function initializeBarchart(idx,confirmedData, recoveredData, deathsData) {
+    
+
+                var totalDays = Object.keys(confirmedData).length;
+
+                // for (let idx = 70; idx < 71; idx++) {
+                    var dateString = Object.keys(confirmedData)[idx];
+
+                    var records = Object.values(confirmedData)[idx];
+                    var sumOfConfirmed = sumCasesPerState(records);
+
+                    var records = Object.values(recoveredData)[idx];
+                    var sumOfRecovered = sumCasesPerState(records);
+
+                    var records = Object.values(deathsData)[idx];
+                    var sumOfDeaths = sumCasesPerState(records);
+
+                    // Combine all data together in a dictionary
+                    var allCasesPerStateDict = {}
+
+                    Object.keys(sumOfConfirmed).forEach(function (state) {
+                        allCasesPerStateDict[state] = [sumOfConfirmed[state], sumOfDeaths[state]];
+                    })
+                    // console.log(allCasesPerStateDict);
+
+                    // // Sort allCasesPerStateDict by number of Confirmed Cases
+                    var sortedAllCasesPerStateDict = sortDictionary(allCasesPerStateDict);
+                    // console.log(sortedAllCasesPerStateDict);
+
+                    var sortedSumOfAllCasesPerStateDict = {}
+
+                    Object.keys(sortedAllCasesPerStateDict).forEach(function (state) {
+                        sortedSumOfAllCasesPerStateDict[state] = (sortedAllCasesPerStateDict[state][0] +
+                            sortedAllCasesPerStateDict[state][1]);
+                    })
+                    // console.log(sortedSumOfAllCasesPerStateDict);
+
+                    createStackedBarChart(dateString, sortedAllCasesPerStateDict);
+
+                // }
+}
+
+// initializeDashboard();
 // initializeDashboard();

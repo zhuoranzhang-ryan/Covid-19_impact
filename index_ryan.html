@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>worldmap</title>
     <link rel="stylesheet" href="./static/css/map-style.css" />
+    <link rel="stylesheet" href="./static/css/style.css" />
 
 </head>
 <body>
@@ -14,10 +15,19 @@
         <span><input type="range" min="1", max="100" value="1" id="myRange" class="slider"></span>
         <p>Date: <span id="value"></span></p>
       </div>
+    <div class="parent-container">
+        <div class="container" id="stacked_bar_chart">
+
+        </div>
+        <!--bar chart container ends here-->
+    </div>
 
     <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="//d3js.org/topojson.v1.min.js"></script>
     <script src="static/js/covid-map.js"></script>
+    <script src="static/js/bar_chart.js"></script>
+
 
     
     
