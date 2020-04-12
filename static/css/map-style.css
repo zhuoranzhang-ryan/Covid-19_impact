@@ -1,5 +1,7 @@
 svg {
-    background: none;
+    background:none;
+    width: 100%;
+    height: auto;
 }
 
 .state {
@@ -13,6 +15,11 @@ svg {
     stroke: #fff;
     stroke-width: 0.15;
 }
+.map-layer{  
+  border: solid;
+  border-color: black;
+  border-width: 1px;
+}
 
 .covid-confirmed {
     /* fill: red; */
@@ -25,7 +32,7 @@ svg {
 .slideContainer {
     width: 400px;
     margin-top: 10px;
-    margin-left: 250px;
+    margin-left: 250px;       
   }
   
   /* .slider::after {
@@ -69,4 +76,30 @@ svg {
     background: white;
     border-radius: 50%;
     cursor: pointer;
+  }
+  #US-map{
+    border:solid;
+    border-width: 1px;
+    border-color: black;
+    padding: 10px;
+    margin: 10px;
+    background-color: wheat;
+  }
+  .container{
+    border:solid;
+    border-width: 1px;
+    border-color: black;
+    /* margin:auto; */
+    padding:5px;
+  }
+  #heading-container{
+    /* background-color:wheat; */
+    width:50%;
+  }
+  #visualization-container{
+    /* background-color:lightblue; */
+    width:50%;
+  }
+  #charts-container{
+    background-color: thistle;
   }

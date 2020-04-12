@@ -1,26 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>worldmap</title>
+    <title>CoVid-19 Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./static/css/map-style.css" />
     <link rel="stylesheet" href="./static/css/style.css" />
 
 </head>
-<body>
-    <div id="US-map"></div>
-    <div class="slideContainer">
-        <button type="button" id="play-button">play</button>
-        <span><input type="range" min="1", max="100" value="1" id="myRange" class="slider"></span>
-        <p>Date: <span id="value"></span></p>
-      </div>
-    <div class="parent-container">
-        <div class="container" id="stacked_bar_chart">
 
+<body>
+    <div class="container col-md-12" id="parent-container">
+        <div class="container" id="heading-container">
+            <div class="row">
+                <div class="col-md-12 text-muted text-center">
+                    <h3>CoVid-19 Dashboard</h3>
+                </div>
+            </div>
         </div>
-        <!--bar chart container ends here-->
+        <!--heading-container ends here-->
+        </br>
+        <div class="row">
+            <div class="container col-md-12" id="visualization-container">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="container" id="US-map">
+                            <div class="row">
+                                <div class="slideContainer">
+                                    <button type="button" id="play-button">play</button>
+                                    <span><input type="range" min="1" , max="100" value="1" id="myRange"
+                                            class="slider"></span>
+                                    <p>Date: <span id="value"></span></p>
+                                </div>
+                                <!--slideContainer ends here-->
+                            </div>
+                        </div>
+                        <!--US-map container ends here-->
+
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="container" id="charts-container">
+                            <div class="row">
+                                <div id="stacked_bar_chart">
+
+                                </div>
+                                <div class="container" id="scatter-plot">
+                                    <p>
+                                        Scatter plot comes here
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--charts conatiner ends here-->
+                    </div>
+                </div>
+            </div>
+            <!--visualization-container ends here-->
+        </div>
     </div>
+    <!--parent-container ends here-->
+    <!-- <div class="container" id="stacked_bar_chart">
+
+    </div> -->
+
+    <!-- <div id="US-map">
+
+    </div> -->
+
+
+    <!-- <div class="parent-container"> -->
+    <!-- <div id="stacked_bar_chart">
+
+    </div> -->
+    <!--bar chart container ends here-->
+    <!-- </div> -->
+
 
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -29,7 +90,9 @@
     <script src="static/js/bar_chart.js"></script>
 
 
-    
-    
+
+
 </body>
+
+
 </html>

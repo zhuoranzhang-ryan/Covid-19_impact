@@ -1,9 +1,9 @@
 #stacked_bar_chart{
-  border: solic;
-  border-width: 1px;
-  border-color: black;
+  /* border: solic; */
+  /* border-width: 1px; */
+  /* border-color: black; */
   margin:50px;
-  padding:100px;  
-  width: 60%;
-  height: 500px;
+  /* padding:100px;   */
+  width: 50%;
+  height: 350px;
 }
