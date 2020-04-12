@@ -202,18 +202,22 @@ function createStackedBarChart(dateString, sortedCovidData) {
     // sortedCovidData = (covidData;
 
     var confirmed = [];
+    var deaths = [];
     var yValues = [];
     var sumOfCases = [];
     var totalNumberOfCasesInUS = 0
     var bar_colors = [];
+    var labels = [];
 
     // Populate x and y values
     Object.entries(sortedCovidData).forEach(function ([state, cases]) {
         confirmed.push(cases[0]);// / (cases[0] + cases[1]));
+        deaths.push(cases[1]);
         yValues.push(state);
         sumOfCases.push(cases[0] + cases[1]);
         totalNumberOfCasesInUS += (cases[0] + cases[1]);
         bar_colors.push("#FF0000");
+        labels.push(`Count:${cases[0] + cases[1]}<br>Confirmed: ${cases[0]}<br>Deaths: ${cases[1]}`);
         // console.log(cases[0]);
         // console.log(cases[0] + cases[1]);
 
@@ -235,7 +239,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
         type: "bar",
         orientation: "h",
         name: "Confirmed",
-        // text: labels,
+        text: labels,
         marker: {
             color: '#FF0000',
             opacity: 0.5,
@@ -245,8 +249,9 @@ function createStackedBarChart(dateString, sortedCovidData) {
                 opacity: 0.7
             }
         },
+        // hoverinfo: text
         hovertemplate:
-            "Total: %{x}<br>" +
+            "%{x} of Total Cases<br>%{text}" +
             "<extra></extra>"
     }
 
@@ -299,6 +304,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
             color: '#7f7f7f'
         },
         barmode: 'stack',
+        // hoverdistance: 10,
         hovermode: 'closest',
         margin: {
             l: 120,
