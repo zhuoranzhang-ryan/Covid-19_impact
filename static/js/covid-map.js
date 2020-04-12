@@ -35,8 +35,8 @@ var button = document.getElementById("play-button");
 getData(mapfile).then(mapdata => {
 
     var projection = d3.geoAlbersUsa()
-        .translate([svgWidth / 2, svgHeight / 2])
-        .scale(900)
+        .translate([svgWidth / 2, svgHeight / 2.2])
+        .scale(1075)
 
     var path = d3.geoPath()
         .projection(projection)

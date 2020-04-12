@@ -294,12 +294,16 @@ function createStackedBarChart(dateString, sortedCovidData) {
 
     var layout = {
         title: `Date: ${dateString}, Total Cases: ${totalNumberOfCasesInUS}`,
+        font: {
+            size: 15,
+            color: '#7f7f7f'
+        },
         barmode: 'stack',
         hovermode: 'closest',
         margin: {
             l: 120,
             r: 20,
-            t: 30,
+            t: 50,
             b: 40
         },
         yaxis: {
@@ -309,7 +313,8 @@ function createStackedBarChart(dateString, sortedCovidData) {
             tickcolor: "white",
             linecolor: 'gray',
             linewidth: 0.01,
-            mirror: true
+            mirror: true,
+            automargin: true
         },
         xaxis: {
             tickformat: ',.0%',
@@ -321,7 +326,8 @@ function createStackedBarChart(dateString, sortedCovidData) {
             border: 1,
             linecolor: 'gray',
             linewidth: 0.5,
-            mirror: true
+            mirror: true,
+            automargin: true
         }
     };
 
