@@ -1,9 +1,19 @@
 #stacked_bar_chart{
-  /* border: solic; */
-  /* border-width: 1px; */
-  /* border-color: black; */
-  margin:50px;
+  border: solid;
+  border-width: 2px;
+  border-color: black;
+  /* margin:50px; */
   /* padding:100px;   */
-  width: 50%;
+  width: 100%;
   height: 350px;
+}
+#scatter-plot{
+  border: solid;
+  border-width: 2px;
+  border-color: black;
+  /* margin:50px; */
+  /* padding:100px;   */
+  width: 100%;
+  height: 350px;
+  background-color:lightgray;
 }

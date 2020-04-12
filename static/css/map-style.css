@@ -97,9 +97,19 @@ svg {
     width:50%;
   }
   #visualization-container{
-    /* background-color:lightblue; */
+    background-color:lightblue;
     width:50%;
   }
   #charts-container{
     background-color: thistle;
+    width:95%;
+  }
+  #map-container{
+    background-color: wheat;
+  }
+  #footnotes-container{
+    border:solid;
+    border-color: black;
+    border-width: 1px;
+    background-color: beige;
   }
