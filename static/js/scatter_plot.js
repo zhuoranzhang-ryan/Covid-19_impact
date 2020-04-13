@@ -4,60 +4,110 @@ var unemploymentCases = "./static/data/unemployment_claims.json";
 // // Set an empty array
 var unemployment = [];
 var covidCases = [];
-
+var datesList = [];
+var states = [];
 // Get confirmed cases data
 d3.json(unemploymentCases).then(function (claimsData) {
   d3.json(confirmedCases).then(function (casesData) {
     // console.log("Original claims data", claimsData);
     // console.log(Object.keys(claimsData));
+    console.log(states);
     for (var i = 0; i < Object.keys(casesData).length; i++) {
       for (var j = 0; j < Object.keys(claimsData).length; j++) {
+        // states.push(Object.keys(Object.values(claimsData)[1][j]));
+        // states = states.flat();
+
         // Retrive data for matching dates from both datasets
         if (Object.keys(casesData)[i] === Object.keys(claimsData)[j]) {
-          // For covid-cases data
-          var statesWithTotalCasesDict = {};
-          var records = Object.values(casesData)[i];
-          var statesWithTotalCases = sumCasesPerState(records);
-          statesWithTotalCasesDict[
-            Object.keys(claimsData)[j]
-          ] = statesWithTotalCases;
+          // Put dates as a list to reference index later
+          datesList.push(Object.keys(casesData)[i]);
 
-          unemployment.push(Object.entries(claimsData)[j]);
-          covidCases.push(statesWithTotalCasesDict);
+          // For covid-cases data
+          // var statesWithTotalCasesDict = {};
+          var records = Object.values(casesData)[i];
+          var statesWithTotalCases = sumCasesPerState(states, records);
+
+          // statesWithTotalCasesDict[
+          //   Object.keys(claimsData)[j]
+          // ] = statesWithTotalCases;
+
+          // Push data to a list
+          covidCases.push(statesWithTotalCases);
+          unemployment.push(Object.values(claimsData)[j]);
+
+          // console.log(statesWithTotalCases);
+          // console.log(statesWithTotalCasesDict);
+
+          // unemployment.push(Object.entries(claimsData)[j]);
+          // covidCases.push(statesWithTotalCasesDict);
         }
       }
     }
-
+    // returnxaxisdata(datesList, unemployment);
+    createScatter(datesList, covidCases, unemployment);
+    console.log(states);
+    console.log(datesList);
     console.log("Final claims data", unemployment);
     console.log("Final cases data", covidCases);
-    // createScatter(covidCases, unenmployment);
   });
 });
 
-// Return data for scatter plot axis
-function returndata(data, date) {
-  return data[0];
-}
-
-console.log(returndata(unemployment));
-
 // Create scatter plot
-function createScatter(confirmedCases, unemploymentData) {
-  var trace1 = {
-    // x: covidCases,
-    x: confirmedCases, // unemployment claims data for each state
-    y: unemploymentData, // covid-19 confirmed cases for each state
-    mode: "markers",
-    type: "scatter",
+function createScatter(datesList, confirmedCases, unemploymentData) {
+  // Get value only from covid data
+  function returnXaxisdata(datesList, covidCases) {
+    xaxisData = [];
+    var index = datesList.indexOf("2020-03-21");
+    Object.entries(covidCases[index]).forEach(function ([state, cases]) {
+      xaxisData.push(cases);
+    });
+
+    console.log("Confirmed Cases Data for Plot", xaxisData);
+    return xaxisData;
+  }
+
+  // Get value only from unemployment data
+  function returnYaxisdata(datesList, unemploymentClaims) {
+    yaxisData = [];
+    states = [];
+    var index = datesList.indexOf("2020-03-21");
+    for (var i = 0; i < unemploymentClaims[index].length; i++) {
+      yaxisData.push(Object.values(unemploymentClaims[index][i]));
+      yaxisData = yaxisData.flat();
+      states.push(Object.keys(unemploymentClaims[index][i]));
+      states = states.flat();
+    }
+    // console.log("Unemployment Data for Plot", yaxisData);
+    // console.log("Unemployment Data for Plot", states);
+    return states, yaxisData;
+  }
+
+  returnYaxisdata(datesList, unemploymentData);
+  returnXaxisdata(datesList, confirmedCases);
+
+  var data = [
+    {
+      // x: covidCases,
+      x: xaxisData, // unemployment claims data for each state
+      y: yaxisData, //create yaxis return data // covid-19 confirmed cases for each state
+      mode: "markers",
+      type: "scatter",
+      hovertemplate: `State: ${states} <br>
+                    Confirmed Cases: ${xaxisData}<br>
+                    Unemployment Claims: ${yaxisData}`,
+    },
+  ];
+
+  var format = {
+    title: "COVID-19 Confirmed Cases vs Unemployment Claims",
+    xaxis: { title: "COVID-19 Confirmed Cases" },
+    yaxis: { title: "Unemployment Claims(per week)" },
   };
-
-  var data = [trace1];
-
-  Plotly.newPlot("scatter", data);
+  Plotly.newPlot("scatter", data, format);
 }
 
-function sumCasesPerState(array) {
-  //source: https://gist.github.com/tleen/6299431
+function sumCasesPerState(states, array) {
+  // source: https://gist.github.com/tleen/6299431
   var states = [
     "Alabama",
     "Alaska",
@@ -120,6 +170,7 @@ function sumCasesPerState(array) {
     "Wyoming",
   ];
 
+  // console.log(states);
   // Initialize totalCasesPerState with 0
 
   // Copy array and set it to zero

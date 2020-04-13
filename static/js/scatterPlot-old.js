@@ -1,77 +1,12 @@
 var confirmedPath = "./static/data/covid_us_confirmed.json";
 var unemploymentPath = "./static/data/unemployment_claims.json";
 
-var globalStateNames = [
-  "Alabama",
-  "Alaska",
-  "American Samoa",
-  "Arizona",
-  "Arkansas",
-  "California",
-  "Colorado",
-  "Connecticut",
-  "Delaware",
-  "District of Columbia",
-  "Federated States of Micronesia",
-  "Florida",
-  "Georgia",
-  "Guam",
-  "Hawaii",
-  "Idaho",
-  "Illinois",
-  "Indiana",
-  "Iowa",
-  "Kansas",
-  "Kentucky",
-  "Louisiana",
-  "Maine",
-  "Marshall Islands",
-  "Maryland",
-  "Massachusetts",
-  "Michigan",
-  "Minnesota",
-  "Mississippi",
-  "Missouri",
-  "Montana",
-  "Nebraska",
-  "Nevada",
-  "New Hampshire",
-  "New Jersey",
-  "New Mexico",
-  "New York",
-  "North Carolina",
-  "North Dakota",
-  "Northern Mariana Islands",
-  "Ohio",
-  "Oklahoma",
-  "Oregon",
-  "Palau",
-  "Pennsylvania",
-  "Puerto Rico",
-  "Rhode Island",
-  "South Carolina",
-  "South Dakota",
-  "Tennessee",
-  "Texas",
-  "Utah",
-  "Vermont",
-  "Virgin Island",
-  "Virginia",
-  "Washington",
-  "West Virginia",
-  "Wisconsin",
-  "Wyoming",
-];
-
 var casesData;
 var claimsData;
 
 d3.json(confirmedPath).then((confirmedCasesData) => {
   d3.json(unemploymentPath).then((unemploymentClaimsData) => {
-    // console.log(
-    //   "\nConfirmed Cases Data: ",
-    //   JSON.stringify(confirmedCasesData, null, 2)
-    // );
+    console.log("Original Unemployment Data", unemploymentClaimsData);
     for (var i = 0; i < Object.keys(unemploymentClaimsData).length; i++) {
       var unemploymentClaimsDict = {};
       var confirmedCasesDict = {};
@@ -81,9 +16,9 @@ d3.json(confirmedPath).then((confirmedCasesData) => {
           unemploymentClaimsData[c]
         );
       }
-
+      console.log("Formatted Unemployment Data", unemploymentClaimsDict);
       // claimsData = unemploymentClaimsDict;
-      console.log("unemploymentClaimsDict: ", unemploymentClaimsDict);
+      // console.log("unemploymentClaimsDict: ", unemploymentClaimsDict);
 
       // if (Object.keys(Object.entries(unemploymentClaimsDict)[0]).includes(Object.keys(confirmedCasesData)[j])) {}
       // for (var x in unemploymentClaimsDict) {
@@ -97,10 +32,6 @@ d3.json(confirmedPath).then((confirmedCasesData) => {
         if (
           Object.keys(unemploymentClaimsData)[i] ===
           Object.keys(confirmedCasesData)[j]
-
-          /**
-           * Loop over Object.keys(confirmedCasesData) -> if not included in globalStateNames, return. Otherwise, implement logic to add new key to dict.
-           */
         ) {
           // For covid-cases data
           var statesWithTotalCasesDict = {};
@@ -112,7 +43,7 @@ d3.json(confirmedPath).then((confirmedCasesData) => {
           var dictToArray = Object.entries(
             Object.entries(statesWithTotalCasesDict)[0][1]
           );
-          console.log("dictToArray", dictToArray);
+          // console.log("dictToArray", dictToArray);
           // for (let x = 0; x < dictToArray.length; x++) {
           //   console.log("x0: ", dictToArray[x][0]);
           //   if (!Object.keys(firstClaimObj).includes(dictToArray[x][0])) {
@@ -120,10 +51,10 @@ d3.json(confirmedPath).then((confirmedCasesData) => {
           //     console.log("deleted");
           //   }
           // }
-          console.log(
-            "Summed Confirmed Data:",
-            Object.entries(Object.entries(statesWithTotalCasesDict)[0][1])
-          );
+          // console.log(
+          //   "Final Confirmed Cases Data:",
+          //   Object.entries(Object.entries(statesWithTotalCasesDict)[0][1])
+          // );
           casesData = statesWithTotalCasesDict;
         }
       }
@@ -131,23 +62,26 @@ d3.json(confirmedPath).then((confirmedCasesData) => {
   });
 });
 
+// Change the data format to {date: {state : number, state: number}} to match covid-19 data
 function formatArrayToObject(array) {
   var obj = {};
-  for (var i = 0; i < array.length; i++) {
-    for (let [key, val] of Object.entries(array[i])) {
-      obj[key] = val;
-    }
+  // for (var i = 0; i < array.length; i++) {
+  for (let [key, val] of Object.entries(array)) {
+    obj[key] = val;
   }
-  console.log("THE OBJECT", obj);
   return obj;
+  // }
 }
+// console.log("Formatted Unemployment Data", obj);
+
+// }
 
 function sumCasesPerState(array) {
   //source: https://gist.github.com/tleen/6299431
   var states = [
     "Alabama",
     "Alaska",
-    "American Samoa",
+    // "American Samoa",
     "Arizona",
     "Arkansas",
     "California",
@@ -155,10 +89,10 @@ function sumCasesPerState(array) {
     "Connecticut",
     "Delaware",
     "District of Columbia",
-    "Federated States of Micronesia",
+    // "Federated States of Micronesia",
     "Florida",
     "Georgia",
-    "Guam",
+    // "Guam",
     "Hawaii",
     "Idaho",
     "Illinois",
@@ -168,7 +102,7 @@ function sumCasesPerState(array) {
     "Kentucky",
     "Louisiana",
     "Maine",
-    "Marshall Islands",
+    // "Marshall Islands",
     "Maryland",
     "Massachusetts",
     "Michigan",
@@ -184,11 +118,11 @@ function sumCasesPerState(array) {
     "New York",
     "North Carolina",
     "North Dakota",
-    "Northern Mariana Islands",
+    // "Northern Mariana Islands",
     "Ohio",
     "Oklahoma",
     "Oregon",
-    "Palau",
+    // "Palau",
     "Pennsylvania",
     "Puerto Rico",
     "Rhode Island",
