@@ -182,7 +182,7 @@ function sumCasesPerState(array) {
     // Copy array and set it to zero
     var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!    
     totalCasesPerState.fill(0);
-    console.log(array.length);
+    // console.log(array.length);
     for (let idx = 0; idx < array.length; idx++) {
         // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
 
