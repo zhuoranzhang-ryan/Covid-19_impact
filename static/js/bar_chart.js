@@ -1,208 +1,40 @@
-<<<<<<< HEAD
-var confirmedCases = "./static/data/covid_us_confirmed.json";
-
-function initializeDashboard() {
-  d3.json(confirmedCases).then(function (dataSet) {
-    console.log(dataSet);
-
-    var totalDays = Object.keys(dataSet).length;
-
-    for (let idx = 70; idx < 71; idx++) {
-      var dateString = Object.keys(dataSet)[idx];
-      var records = Object.values(dataSet)[idx];
-      var statesWithTotalCasesDict = {};
-
-      var statesWithTotalCases = sumCasesPerState(records);
-
-      statesWithTotalCasesDict[dateString] = statesWithTotalCases;
-
-      console.log(statesWithTotalCasesDict);
-
-      console.log("\n");
-
-      createBarChart(dateString, statesWithTotalCases);
-    }
-
-    // Object.entries(dataSet).forEach(function ([date, records]) {
-    //     var statesWithTotalCasesDict = {}
-
-    //     var statesWithTotalCases = sumCasesPerState(records);
-
-    //     statesWithTotalCasesDict[date] = statesWithTotalCases;
-
-    //     console.log(statesWithTotalCasesDict);
-
-    //     // createBarChart(date, statesWithTotalCases);
-    //     createBarChart(date, statesWithTotalCases);
-
-    // });
-  });
-}
-
-function sumCasesPerState(array) {
-  //source: https://gist.github.com/tleen/6299431
-  var states = [
-    "Alabama",
-    "Alaska",
-    "American Samoa",
-    "Arizona",
-    "Arkansas",
-    "California",
-    "Colorado",
-    "Connecticut",
-    "Delaware",
-    "District of Columbia",
-    "Federated States of Micronesia",
-    "Florida",
-    "Georgia",
-    "Guam",
-    "Hawaii",
-    "Idaho",
-    "Illinois",
-    "Indiana",
-    "Iowa",
-    "Kansas",
-    "Kentucky",
-    "Louisiana",
-    "Maine",
-    "Marshall Islands",
-    "Maryland",
-    "Massachusetts",
-    "Michigan",
-    "Minnesota",
-    "Mississippi",
-    "Missouri",
-    "Montana",
-    "Nebraska",
-    "Nevada",
-    "New Hampshire",
-    "New Jersey",
-    "New Mexico",
-    "New York",
-    "North Carolina",
-    "North Dakota",
-    "Northern Mariana Islands",
-    "Ohio",
-    "Oklahoma",
-    "Oregon",
-    "Palau",
-    "Pennsylvania",
-    "Puerto Rico",
-    "Rhode Island",
-    "South Carolina",
-    "South Dakota",
-    "Tennessee",
-    "Texas",
-    "Utah",
-    "Vermont",
-    "Virgin Island",
-    "Virginia",
-    "Washington",
-    "West Virginia",
-    "Wisconsin",
-    "Wyoming",
-  ];
-
-  // Initialize totalCasesPerState with 0
-
-  // Copy array and set it to zero
-  var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!
-  totalCasesPerState.fill(0);
-
-  for (let idx = 0; idx < array.length; idx++) {
-    // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
-
-    var stateIndex = states.indexOf(array[idx].Province);
-
-    if (stateIndex > -1) {
-      totalCasesPerState[stateIndex] =
-        totalCasesPerState[stateIndex] + array[idx].Cases;
-=======
 var confirmedCases = "./static/data/covid_us_confirmed.json"
 var recoveredCases = "./static/data/covid_us_recovered.json"
 var deathCases = "./static/data/covid_us_deaths.json"
 
-// function initializeDashboard() {
-//     d3.json(confirmedCases).then(function (dataSet) {
-//         console.log(dataSet);
-
-//         var totalDays = Object.keys(dataSet).length;
-
-//         for (let idx = 60; idx < 61; idx++) {
-//             var dateString = Object.keys(dataSet)[idx];
-//             var records = Object.values(dataSet)[idx]
-//             var statesWithTotalCasesDict = {}
-
-//             var statesWithTotalCases = sumCasesPerState(records);
-
-//             statesWithTotalCasesDict[dateString] = statesWithTotalCases;
-
-//             console.log(statesWithTotalCasesDict);
-
-//             console.log("\n");
-
-//             createBarChart(dateString, statesWithTotalCases);
-//         }
-
-//         // Object.entries(dataSet).forEach(function ([date, records]) {
-//         //     var statesWithTotalCasesDict = {}
-
-//         //     var statesWithTotalCases = sumCasesPerState(records);
-
-//         //     statesWithTotalCasesDict[date] = statesWithTotalCases;
-
-//         //     console.log(statesWithTotalCasesDict);
-
-//         //     // createBarChart(date, statesWithTotalCases);
-//         //     createBarChart(date, statesWithTotalCases);
-
-//         // });
-
-//     })
-// }
-
 function sumCasesPerState(array) {
-    //source: https://gist.github.com/tleen/6299431
-    var states = ['Alabama', 'Alaska', 'American Samoa',
-        'Arizona', 'Arkansas', 'California', 'Colorado',
-        'Connecticut', 'Delaware', 'District of Columbia',
-        'Federated States of Micronesia', 'Florida', 'Georgia',
-        'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
-        'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands',
-        'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-        'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
-        'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau',
-        'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota',
-        'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington',
-        'West Virginia', 'Wisconsin', 'Wyoming'];
-
-    // Initialize totalCasesPerState with 0
-
-    // Copy array and set it to zero
-    var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!    
-    totalCasesPerState.fill(0);
-    // console.log(array.length);
-    for (let idx = 0; idx < array.length; idx++) {
-        // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
-
-        var stateIndex = states.indexOf(array[idx].Province);
-
-        if (stateIndex > -1) {
-            totalCasesPerState[stateIndex] = totalCasesPerState[stateIndex] + array[idx].Cases;
-        }
->>>>>>> 90d27ee8040fc786be6417c8cabb6bd37d71c293
-    }
+  //source: https://gist.github.com/tleen/6299431
+  var states = ['Alabama', 'Alaska', 'American Samoa',
+      'Arizona', 'Arkansas', 'California', 'Colorado',
+      'Connecticut', 'Delaware', 'District of Columbia',
+      'Federated States of Micronesia', 'Florida', 'Georgia',
+      'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
+      'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands',
+      'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+      'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+      'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+      'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau',
+      'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota',
+      'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington',
+      'West Virginia', 'Wisconsin', 'Wyoming'];
+  // Initialize totalCasesPerState with 0
+  // Copy array and set it to zero
+  var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!    
+  totalCasesPerState.fill(0);
+  console.log(array.length);
+  for (let idx = 0; idx < array.length; idx++) {
+      // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
+      var stateIndex = states.indexOf(array[idx].Province);
+      if (stateIndex > -1) {
+          totalCasesPerState[stateIndex] = totalCasesPerState[stateIndex] + array[idx].Cases;
+      }
   }
-
   // Create dictionary of states and cases for a date
-  var statesWithTotalCases = {};
-
-<<<<<<< HEAD
+  var statesWithTotalCases = {}
   for (let i = 0; i < totalCasesPerState.length; i++) {
-    statesWithTotalCases[states[i]] = totalCasesPerState[i];
+      statesWithTotalCases[states[i]] = totalCasesPerState[i];
   }
-
+  // console.log(statesWithTotalCases);
   return statesWithTotalCases;
 }
 
@@ -275,7 +107,6 @@ function createBarChart(dateString, covidData) {
   var data = [trace];
 
   Plotly.newPlot("scatter", data, layout, { displayModeBar: false });
-=======
     // console.log(statesWithTotalCases);
 
     return statesWithTotalCases;
@@ -354,7 +185,6 @@ function createBarChart(dateString, covidData) {
     var data = [trace];
 
     Plotly.newPlot("stacked_bar_chart", data, layout, { displayModeBar: false });
->>>>>>> 90d27ee8040fc786be6417c8cabb6bd37d71c293
 }
 // source: https://bit.ly/3bYZ2NY
 function sort_object(obj) {
@@ -374,9 +204,6 @@ function sort_object(obj) {
   return sorted_obj;
 }
 
-<<<<<<< HEAD
-initializeDashboard();
-=======
 function sortDictionary(obj) {
     var items = Object.keys(obj).map(function (key) {
         return [key, obj[key]];
@@ -620,4 +447,3 @@ function initializeBarchart(idx,confirmedData, recoveredData, deathsData) {
 
 // initializeDashboard();
 // initializeDashboard();
->>>>>>> 90d27ee8040fc786be6417c8cabb6bd37d71c293
