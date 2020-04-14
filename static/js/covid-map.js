@@ -23,6 +23,7 @@ const mapfile = "static/data/us.json";
 const covid_confirm_file = "static/data/covid_us_confirmed.json";
 const covid_deaths_file = "static/data/covid_us_deaths.json";
 const covid_recovered_file = "static/data/covid_us_recovered.json";
+const unemploymentCases = "./static/data/unemployment_claims.json";
 
 async function getData(url) {
     let response = await fetch(url);
@@ -108,8 +109,11 @@ getData(mapfile).then(mapdata => {
     };
     
     getData(covid_confirm_file).then(response => {
+        // casesData needs to be replaced by "response"
     getData(covid_deaths_file).then(deathsData => {
     getData(covid_recovered_file).then (recoveredData => {
+    getData(unemploymentCases).then(function (claimsData) {
+
 
         // Setting up correct values for slider bar.
         var slider_max = Object.keys(response).length;
@@ -144,8 +148,10 @@ getData(mapfile).then(mapdata => {
         const confirmLayer = d3.select(".map-svg").append('g').attr('class', "layers").attr("cursor", "pointer")
                                 .on('click', clicked)
         let data = Object.values(response)[0];
+        let date_scatter = Object.keys(response)[2];
         drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
         initializeBarchart(0, response, recoveredData, deathsData);
+        initializeScatter(claimsData, response, date_scatter);
 
         // Enable the sliding functionality.
         let track_date = 0;
@@ -157,12 +163,16 @@ getData(mapfile).then(mapdata => {
             output.innerHTML = dates[index];
             drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
             initializeBarchart(index, response, recoveredData, deathsData);
+            initializeScatter(claimsData, response, dates[index]);
+            
+            
         };
         
         // Enable the play button functionality.
         var play_flag = false;
         button.addEventListener("click", function() {
             track_date = +slider.value;
+            let dates = Object.keys(response);
             if (!play_flag) {
                 play_flag = true;
                 console.log("It is playing, change button text to pause");
@@ -177,6 +187,8 @@ getData(mapfile).then(mapdata => {
                     } else {
                         moveSlider(track_date, response, projection);
                         initializeBarchart(track_date - 1, response, recoveredData, deathsData);
+                        initializeScatter(claimsData, response, dates[track_date]);
+                        
                         track_date += 1;
                     }      
             }, 200);
@@ -221,6 +233,7 @@ getData(mapfile).then(mapdata => {
         // };
     });
     });      
+    });
     });
 })
 
