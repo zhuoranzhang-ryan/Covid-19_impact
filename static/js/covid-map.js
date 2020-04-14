@@ -241,7 +241,7 @@ getData(mapfile).then(mapdata => {
 var colorScale = d3.scaleLinear()
     .domain(d3.ticks(0, 100000, 75))
     // .range([ "#FF9999", "#FF6666", "#FF3333", "#FF0000"]);
-    .range(["#5BB902", "#FF8503", "#FF5959", "#FF0000"]);
+    .range(["#92D254", "#FF8503", "#FF5959", "#FF0000"]);
 
 // Function to draw the circle layers for confirm case data.
 function drawCircleLayer(layer, layerdata, layerClass, projection) {
@@ -251,7 +251,7 @@ function drawCircleLayer(layer, layerdata, layerClass, projection) {
         .enter()
         .append('circle')
         .attr("class", layerClass)
-        .attr("r", d => Math.log2(d.Cases) + 2)
+        .attr("r", d => Math.log2(d.Cases) + 1)
         // .attr("r", d => {retutn (Math.log2(d.Cases)+2)})
         .attr("cx", d => {
             var coords = projection([d.Lon, d.Lat]);
