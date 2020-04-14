@@ -57,7 +57,7 @@ function createScatter(datesList, confirmedCases, unemploymentData) {
   // Get value only from covid data
   function returnXaxisdata(datesList, covidCases) {
     xaxisData = [];
-    var index = datesList.indexOf("2020-03-21");
+    var index = datesList.indexOf("2020-03-28");
     Object.entries(covidCases[index]).forEach(function ([state, cases]) {
       xaxisData.push(cases);
     });
@@ -70,7 +70,7 @@ function createScatter(datesList, confirmedCases, unemploymentData) {
   function returnYaxisdata(datesList, unemploymentClaims) {
     yaxisData = [];
     states = [];
-    var index = datesList.indexOf("2020-03-21");
+    var index = datesList.indexOf("2020-03-28");
     for (var i = 0; i < unemploymentClaims[index].length; i++) {
       yaxisData.push(Object.values(unemploymentClaims[index][i]));
       yaxisData = yaxisData.flat();
@@ -92,9 +92,12 @@ function createScatter(datesList, confirmedCases, unemploymentData) {
       y: yaxisData, //create yaxis return data // covid-19 confirmed cases for each state
       mode: "markers",
       type: "scatter",
-      hovertemplate: `State: ${states} <br>
-                    Confirmed Cases: ${xaxisData}<br>
-                    Unemployment Claims: ${yaxisData}`,
+      text: states,
+      marker: {
+        size: 15,
+        color: "LightSkyBlue",
+        line: { width: 2, color: "DarkSlateGrey" },
+      },
     },
   ];
 
@@ -111,7 +114,6 @@ function sumCasesPerState(states, array) {
   var states = [
     "Alabama",
     "Alaska",
-    // "American Samoa",
     "Arizona",
     "Arkansas",
     "California",
@@ -119,10 +121,8 @@ function sumCasesPerState(states, array) {
     "Connecticut",
     "Delaware",
     "District of Columbia",
-    // "Federated States of Micronesia",
     "Florida",
     "Georgia",
-    // "Guam",
     "Hawaii",
     "Idaho",
     "Illinois",
@@ -132,7 +132,6 @@ function sumCasesPerState(states, array) {
     "Kentucky",
     "Louisiana",
     "Maine",
-    // "Marshall Islands",
     "Maryland",
     "Massachusetts",
     "Michigan",
@@ -148,11 +147,9 @@ function sumCasesPerState(states, array) {
     "New York",
     "North Carolina",
     "North Dakota",
-    // "Northern Mariana Islands",
     "Ohio",
     "Oklahoma",
     "Oregon",
-    // "Palau",
     "Pennsylvania",
     "Puerto Rico",
     "Rhode Island",
@@ -162,7 +159,7 @@ function sumCasesPerState(states, array) {
     "Texas",
     "Utah",
     "Vermont",
-    "Virgin Island",
+    "Virgin Islands",
     "Virginia",
     "Washington",
     "West Virginia",
