@@ -1,20 +1,9 @@
-// var confirmedCases = "./static/data/covid_us_confirmed.json";
-// var unemploymentCases = "./static/data/unemployment_claims.json";
-
-// // Set an empty array
-// var unemployment = [];
-// var covidCases = [];
-// var datesList = [];
-// var states = [];
-// Get confirmed cases data
 function initializeScatter(claimsData, casesData, date) {
-    // console.log(date);
 
       var datesList = [];
       var unemployment = [];
       var covidCases = [];
-      // console.log(casesData);
-      // console.log(claimsData);
+  
       for (var i = 0; i < Object.keys(casesData).length; i++) {
         for (var j = 0; j < Object.keys(claimsData).length; j++) {
 
@@ -47,12 +36,10 @@ function returnXaxisdata(datesList, covidCases, dateX) {
     index = dayAndWeekX;
   };
 
-    // console.log(index);
     Object.entries(covidCases[index]).forEach(function ([state, cases]) {
       xaxisData.push(Math.log10(cases));
     });
 
-    // console.log("Confirmed Cases Data for Plot", xaxisData);
     return xaxisData;
 }
 
@@ -67,7 +54,6 @@ function returnYaxisdata(datesList, unemploymentClaims, dateY) {
     index = dayAndWeekY;
   };
 
-  // var index = datesList.indexOf(dateY);
   for (var i = 0; i < unemploymentClaims[index].length; i++) {
 
     yaxisData.push(Object.values(unemploymentClaims[index][i]));
@@ -75,8 +61,6 @@ function returnYaxisdata(datesList, unemploymentClaims, dateY) {
     states.push(Object.keys(unemploymentClaims[index][i]));
     states = states.flat();
   }
-  // console.log("Unemployment Data for Plot", yaxisData);
-  // console.log("Unemployment Data for Plot", states);
   return states, yaxisData;
 }
 
@@ -109,7 +93,7 @@ function createScatter(datesList, confirmedCases, unemploymentData, date) {
     xaxis: { title: "COVID-19 Confirmed Cases" },
     yaxis: { title: "Unemployment Claims(per week)",
              range: [0, 500000],        
-  },
+           },
   };
   Plotly.newPlot("scatter", data, format);
 }
@@ -199,8 +183,3 @@ function sumScatter(array) {
 
   return statesWithTotalCases;
 }
-
-// initializeScatter();
-// function dateIsValid(claimsData, response, date) {
-
-// }

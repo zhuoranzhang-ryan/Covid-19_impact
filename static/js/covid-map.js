@@ -19,6 +19,7 @@ var svg = d3.select("#US-map")
             .append('g')
             .attr("class", "map-layer")
 
+// file directories/urls.
 const mapfile = "static/data/us.json";
 const covid_confirm_file = "static/data/covid_us_confirmed.json";
 const covid_deaths_file = "static/data/covid_us_deaths.json";
@@ -35,86 +36,43 @@ var slider = document.getElementById("myRange");
 var output = document.getElementById("value");
 output.innerHTML = '';
 var button = document.getElementById("play-button");
-
-getData(mapfile).then(mapdata => {
-
-    var projection = d3.geoAlbersUsa()
-                       .translate([svgWidth/2, svgHeight/2])
-                       .scale(900)
-
-    var path = d3.geoPath()
-                .projection(projection)
     
-    var counties = topojson.feature(mapdata, mapdata.objects.counties).features
-
-    counties_map = svg.append('g').attr('class', 'county-layer')
-    counties_map.selectAll(".county")
-                .data(counties)
-                .enter().append("path")
-                .attr("class", "county")
-                .attr("cursor", "pointer")
-                .attr("d", path)
-                .on("click", clicked)    
-
-    var states = topojson.feature(mapdata, mapdata.objects.states).features
-
-    states_map = svg.append('g').attr('class', 'state-layer')
-    states_map.selectAll(".state")
-                .data(states)
-                .enter().append("path")
-                .attr("cursor", "pointer")
-                .style("opacity", "0.7")
-                .attr("class", "state")
-                .attr("d", path)
-                .on("click", clicked)
-    //     .append("title")
-    //   .text(d => d.properties.name);
-
-    var zoomSettings = {
-        duration: 1000,
-        ease: d3.easeCubicOut,
-        zoomLevel: 5
-    };
-
-    function clicked(d) {
-        var x;
-        var y;
-        var zoomLevel;
-        var centered;
-
-        if (d && centered !== d) {
-            var centroid = path.centroid(d);
-            x = centroid[0];
-            y = centroid[1];
-            zoomLevel = zoomSettings.zoomLevel;
-            centered = d;
-        } else {
-            x = width/2;
-            y = height/2;
-            zoomLevel = 1;
-            centered = null;
-        }
-        counties_map.transition()
-                .duration(zoomSettings.duration)
-                .ease(zoomSettings.ease)
-                .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
-        states_map.transition()
-                .duration(zoomSettings.duration)
-                .ease(zoomSettings.ease)
-                .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
-        // confirmLayer.transition()
-        //         .duration(zoomSettings.duration)
-        //         .ease(zoomSettings.ease)
-        //         .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');         
-    };
-    
+    getData(mapfile).then(mapdata => {
     getData(covid_confirm_file).then(response => {
-        // casesData needs to be replaced by "response"
     getData(covid_deaths_file).then(deathsData => {
     getData(covid_recovered_file).then (recoveredData => {
     getData(unemploymentCases).then(function (claimsData) {
 
+        // creating the map
+        var projection = d3.geoAlbersUsa()
+                       .translate([svgWidth/2, svgHeight/2])
+                       .scale(900)
 
+        var path = d3.geoPath()
+                    .projection(projection)
+        
+        var counties = topojson.feature(mapdata, mapdata.objects.counties).features
+
+        counties_map = svg.append('g').attr('class', 'county-layer')
+        counties_map.selectAll(".county")
+                    .data(counties)
+                    .enter().append("path")
+                    .attr("class", "county")
+                    .attr("cursor", "pointer")
+                    .attr("d", path)
+                    .on("click", clicked)    
+
+        var states = topojson.feature(mapdata, mapdata.objects.states).features
+
+        states_map = svg.append('g').attr('class', 'state-layer')
+        states_map.selectAll(".state")
+                    .data(states)
+                    .enter().append("path")
+                    .attr("cursor", "pointer")
+                    .style("opacity", "0.7")
+                    .attr("class", "state")
+                    .attr("d", path)
+                    .on("click", clicked)
         // Setting up correct values for slider bar.
         var slider_max = Object.keys(response).length;
         d3.select(".slider").attr("max", slider_max);
@@ -160,12 +118,10 @@ getData(mapfile).then(mapdata => {
             let index = this.value - 1;
             let data = Object.values(response)[index];
             let dates = Object.keys(response);  
-            output.innerHTML = dates[index];
+            output.innerHTML = `${dates[index]} (Day: ${index + 1})`;
             drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
             initializeBarchart(index, response, recoveredData, deathsData);
             initializeScatter(claimsData, response, dates[index]);
-            
-            
         };
         
         // Enable the play button functionality.
@@ -198,44 +154,51 @@ getData(mapfile).then(mapdata => {
                 button.innerHTML = 'play'
                 clearInterval(timer);
             }
-        });
 
-        // function clicked(d) {
-        //     var x;
-        //     var y;
-        //     var zoomLevel;
-        //     var centered;
+        });
+        // gg.call(zoom);
+        var zoomSettings = {
+            duration: 1000,
+            ease: d3.easeCubicOut,
+            zoomLevel: 5
+        };
     
-        //     if (d && centered !== d) {
-        //         var centroid = path.centroid(d);
-        //         x = centroid[0];
-        //         y = centroid[1];
-        //         zoomLevel = zoomSettings.zoomLevel;
-        //         centered = d;
-        //     } else {
-        //         x = width/2;
-        //         y = height/2;
-        //         zoomLevel = 1;
-        //         centered = null;
-        //     }
-        //     counties_map.transition()
-        //             .duration(zoomSettings.duration)
-        //             .ease(zoomSettings.ease)
-        //             .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
-        //     states_map.transition()
-        //             .duration(zoomSettings.duration)
-        //             .ease(zoomSettings.ease)
-        //             .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
-        //     confirmLayer.transition()
-        //             .duration(zoomSettings.duration)
-        //             .ease(zoomSettings.ease)
-        //             .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');         
-        // };
+        function clicked(d) {
+            var x;
+            var y;
+            var zoomLevel;
+            var centered;
+    
+            if (d && centered !== d) {
+                var centroid = path.centroid(d);
+                x = centroid[0];
+                y = centroid[1];
+                zoomLevel = zoomSettings.zoomLevel;
+                centered = d;
+            } else {
+                x = width/2;
+                y = height/2;
+                zoomLevel = 1;
+                centered = null;
+            }
+            counties_map.transition()
+                    .duration(zoomSettings.duration)
+                    .ease(zoomSettings.ease)
+                    .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
+            states_map.transition()
+                    .duration(zoomSettings.duration)
+                    .ease(zoomSettings.ease)
+                    .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
+            confirmLayer.transition()
+                    .duration(zoomSettings.duration)
+                    .ease(zoomSettings.ease)
+                    .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');         
+        };
     });
     });      
     });
     });
-})
+});
 
 // colorScale function
 var colorScale = d3.scaleLinear()
@@ -251,7 +214,7 @@ function drawCircleLayer(layer, layerdata, layerClass, projection) {
         .enter()
         .append('circle')
         .attr("class", layerClass)
-        .attr("r", d => Math.log2(d.Cases) + 1)
+        .attr("r", d => Math.log10(d.Cases)*1.7 + 0.7)
         // .attr("r", d => {retutn (Math.log2(d.Cases)+2)})
         .attr("cx", d => {
             var coords = projection([d.Lon, d.Lat]);
@@ -276,10 +239,9 @@ function moveSlider(input, response, projection) {
     slider.value = input;
     let index = slider.value - 1;
     console.log(index);
-    // console.log(response);
     let data = Object.values(response)[index];
     let dates = Object.keys(response);  
-    output.innerHTML = dates[index];
+    output.innerHTML = `${dates[index]} (Day: ${input})`;
   
     d3.selectAll(".layers").html('');
     let confirmLayer = d3.select(".layers")
