@@ -2,45 +2,6 @@ var confirmedCases = "./static/data/covid_us_confirmed.json"
 var recoveredCases = "./static/data/covid_us_recovered.json"
 var deathCases = "./static/data/covid_us_deaths.json"
 
-// function initializeDashboard() {
-//     d3.json(confirmedCases).then(function (dataSet) {
-//         console.log(dataSet);
-
-//         var totalDays = Object.keys(dataSet).length;
-
-//         for (let idx = 60; idx < 61; idx++) {
-//             var dateString = Object.keys(dataSet)[idx];
-//             var records = Object.values(dataSet)[idx]
-//             var statesWithTotalCasesDict = {}
-
-//             var statesWithTotalCases = sumCasesPerState(records);
-
-//             statesWithTotalCasesDict[dateString] = statesWithTotalCases;
-
-//             console.log(statesWithTotalCasesDict);
-
-//             console.log("\n");
-
-//             createBarChart(dateString, statesWithTotalCases);
-//         }
-
-//         // Object.entries(dataSet).forEach(function ([date, records]) {
-//         //     var statesWithTotalCasesDict = {}
-
-//         //     var statesWithTotalCases = sumCasesPerState(records);
-
-//         //     statesWithTotalCasesDict[date] = statesWithTotalCases;
-
-//         //     console.log(statesWithTotalCasesDict);
-
-//         //     // createBarChart(date, statesWithTotalCases);
-//         //     createBarChart(date, statesWithTotalCases);
-
-//         // });
-
-//     })
-// }
-
 function sumCasesPerState(array) {
     //source: https://gist.github.com/tleen/6299431
     var states = ['Alabama', 'Alaska', 'American Samoa',
@@ -62,7 +23,7 @@ function sumCasesPerState(array) {
     // Copy array and set it to zero
     var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!    
     totalCasesPerState.fill(0);
-    console.log(array.length);
+    // console.log(array.length);
     for (let idx = 0; idx < array.length; idx++) {
         // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
 
@@ -100,8 +61,8 @@ function createBarChart(dateString, covidData) {
         yValues.push(cases);
     });
 
-    console.log(xValues);
-    console.log(yValues);
+    // console.log(xValues);
+    // console.log(yValues);
 
     // console.log(Math.max.apply(Math, yValues));
 
@@ -112,7 +73,9 @@ function createBarChart(dateString, covidData) {
         type: "bar",
         orientation: "h",
         name: "confirmedCases",
-        // text: labels,
+        // text: xValues.map(function (x) x * 0.001),
+        textposition: 'auto',
+        hoverinfo: 'none',
         marker: {
             color: 'rgba(50,171,96,0.6)',
             line: {
@@ -196,14 +159,10 @@ function sortDictionary(obj) {
 }
 
 function createStackedBarChart(dateString, sortedCovidData) {
-    // console.log(covidData);
-
-    // sortedCovidData = (sort_object(covidData));
-    // sortedCovidData = (covidData;
 
     var confirmed = [];
     var deaths = [];
-    var yValues = [];
+    var stateNames = [];
     var sumOfCases = [];
     var totalNumberOfCasesInUS = 0
     var bar_colors = [];
@@ -211,35 +170,36 @@ function createStackedBarChart(dateString, sortedCovidData) {
 
     // Populate x and y values
     Object.entries(sortedCovidData).forEach(function ([state, cases]) {
-        confirmed.push(cases[0]);// / (cases[0] + cases[1]));
+        confirmed.push(cases[0]);
         deaths.push(cases[1]);
-        yValues.push(state);
+        stateNames.push(state);
         sumOfCases.push(cases[0] + cases[1]);
         totalNumberOfCasesInUS += (cases[0] + cases[1]);
         bar_colors.push("#FF0000");
         labels.push(`Count:${cases[0] + cases[1]}<br>Confirmed: ${cases[0]}<br>Deaths: ${cases[1]}`);
-        // console.log(cases[0]);
-        // console.log(cases[0] + cases[1]);
 
     });
-    // console.log(`Total cases in USA: ${totalNumberOfCasesInUS}`);
-    // console.log(confirmed / totalNumberOfCasesInUS);
+
     var percentCases = confirmed.map(function (item) { return item / totalNumberOfCasesInUS });
-    // console.log(percentCases);
+    var xValues = percentCases.slice(0, 11);
+    var yValues = stateNames.slice(0, 11);
 
+    var last_state_index = xValues.indexOf(0);
 
+    if (last_state_index > 0) {
+        xValues = percentCases.slice(0, last_state_index)
+        yValues = stateNames.slice(0, last_state_index);
+    }
 
-
-    // console.log(xValues);
-    // console.log(yValues);
 
     var trace1 = {
-        x: percentCases.slice(0, 11),
-        y: yValues.slice(0, 11),
+        x: xValues,
+        y: yValues,
         type: "bar",
         orientation: "h",
         name: "Confirmed",
-        text: labels,
+        // text: confirmed.map(x => Math.round(x * 0.001, 0.5)).map(String),
+        textposition: 'outside',
         marker: {
             color: '#FF0000',
             opacity: 0.5,
@@ -250,9 +210,9 @@ function createStackedBarChart(dateString, sortedCovidData) {
             }
         },
         // hoverinfo: text
-        hovertemplate:
-            "%{x} of Total Cases<br>%{text}" +
-            "<extra></extra>"
+        // hovertemplate:
+        //     "%{x} of Total Cases<br>%{labels}" +
+        //     "<extra></extra>"
     }
 
     var deaths = [];
@@ -271,7 +231,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
 
     var trace2 = {
         x: deaths.slice(0, 11),
-        y: yValues.slice(0, 11),
+        y: stateNames.slice(0, 11),
         type: "bar",
         orientation: "h",
         name: "Deaths",
