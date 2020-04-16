@@ -16,10 +16,10 @@ var svg = d3.select("#US-map")
     .append('g')
     .attr("class", "map-layer")
 
-const mapfile = "static/data/us.json";
-const covid_confirm_file = "static/data/covid_us_confirmed.json";
-const covid_deaths_file = "static/data/covid_us_deaths.json";
-const covid_recovered_file = "static/data/covid_us_recovered.json";
+const mapfile = "../static/data/us.json";
+const covid_confirm_file = "../static/data/covid_us_confirmed.json";
+const covid_deaths_file = "../static/data/covid_us_deaths.json";
+const covid_recovered_file = "../static/data/covid_us_recovered.json";
 
 async function getData(url) {
     let response = await fetch(url);
@@ -33,7 +33,7 @@ output.innerHTML = '';
 var button = document.getElementById("play-button");
 
 getData(mapfile).then(mapdata => {
-
+    console.log("Testing");
     var projection = d3.geoAlbersUsa()
         .translate([svgWidth / 2, svgHeight / 2.2])
         .scale(1075)
@@ -59,15 +59,18 @@ getData(mapfile).then(mapdata => {
     getData(covid_confirm_file).then(response => {
         getData(covid_deaths_file).then(deathsData => {
             getData(covid_recovered_file).then(recoveredData => {
-
                 var slider_max = Object.keys(response).length;
+                console.log("Testing");
+                console.log(Object.keys(response).length);
+
                 d3.select(".slider").attr("max", slider_max);
-                console.log(slider_max);
-                console.log(response);
+                // console.log(slider_max);
+                // console.log(response);
                 var confirmLayer = d3.select(".map-svg").append('g').attr('class', "layers")
                 let data = Object.values(response)[0];
                 drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
                 initializeBarchart(0, response, recoveredData, deathsData);
+                // console.log(response);
 
                 let track_date = 0;
                 slider.oninput = function () {
@@ -79,6 +82,7 @@ getData(mapfile).then(mapdata => {
                     drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
                     initializeBarchart(index, response, recoveredData, deathsData);
                     console.log(track_date);
+
                 };
 
                 var play_flag = false;

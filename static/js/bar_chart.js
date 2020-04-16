@@ -1,6 +1,6 @@
-var confirmedCases = "./static/data/covid_us_confirmed.json"
-var recoveredCases = "./static/data/covid_us_recovered.json"
-var deathCases = "./static/data/covid_us_deaths.json"
+var confirmedCases = "static/data/covid_us_confirmed.json"
+var recoveredCases = "static/data/covid_us_recovered.json"
+var deathCases = "static/data/covid_us_deaths.json"
 
 function sumCasesPerState(array) {
     //source: https://gist.github.com/tleen/6299431
@@ -180,15 +180,17 @@ function createStackedBarChart(dateString, sortedCovidData) {
 
     });
 
-    var percentCases = confirmed.map(function (item) { return item / totalNumberOfCasesInUS });
+    var percentCases = sumOfCases.map(function (item) { return item / totalNumberOfCasesInUS });
     var xValues = percentCases.slice(0, 11);
     var yValues = stateNames.slice(0, 11);
+    var labels = confirmed.slice(0, 11);
 
     var last_state_index = xValues.indexOf(0);
 
     if (last_state_index > 0) {
         xValues = percentCases.slice(0, last_state_index)
         yValues = stateNames.slice(0, last_state_index);
+        labels = confirmed.slice(0, last_state_index);
     }
 
 
@@ -198,8 +200,8 @@ function createStackedBarChart(dateString, sortedCovidData) {
         type: "bar",
         orientation: "h",
         name: "Confirmed",
-        // text: confirmed.map(x => Math.round(x * 0.001, 0.5)).map(String),
-        textposition: 'outside',
+        text: "`Confirmed: ${labels}`",
+        // textposition: 'outside',
         marker: {
             color: '#FF0000',
             opacity: 0.5,
@@ -209,10 +211,10 @@ function createStackedBarChart(dateString, sortedCovidData) {
                 opacity: 0.7
             }
         },
-        // hoverinfo: text
-        // hovertemplate:
-        //     "%{x} of Total Cases<br>%{labels}" +
-        //     "<extra></extra>"
+        // hoverinfo: text,
+        hovertemplate:
+            "%{x} of Total Cases<br>%{text}" +
+            "<extra></extra>"
     }
 
     var deaths = [];
@@ -225,37 +227,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
         // yValues.push(state);
     });
 
-
-    // console.log(xValues);
-    // console.log(yValues);
-
-    var trace2 = {
-        x: deaths.slice(0, 11),
-        y: stateNames.slice(0, 11),
-        type: "bar",
-        orientation: "h",
-        name: "Deaths",
-        marker: {
-            color: '#636363',
-            opacity: 0.5,
-            line: {
-                color: 'black',
-                width: 1,
-                opacity: 0.7
-            }
-        },
-        // text: labels,
-        // marker: {
-        //     color: 'rgba(50,171,96,0.6)',
-        //     line: {
-        //         color: 'rgba(50,171,96,1.0)',
-        //         width: 0
-        //     }
-        // },
-        hovertemplate:
-            "Deaths: %{x}<br>" +
-            "<extra></extra>"
-    }
+    var data = [trace1];
 
     var layout = {
         title: `Date: ${dateString}, Total Cases: ${totalNumberOfCasesInUS}`,
@@ -272,6 +244,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
             t: 50,
             b: 40
         },
+        annotations: ['test'],
         yaxis: {
             autorange: "reversed",
             ticks: "outside",
@@ -297,9 +270,20 @@ function createStackedBarChart(dateString, sortedCovidData) {
         }
     };
 
-
-
-    var data = [trace1];
+    for (var i = 0; i < xValues.length; i++) {
+        var result = {
+            x: xValues[i] + 0.1,
+            y: yValues[i],
+            text: +sumOfCases[i],
+            font: {
+                family: 'Arial',
+                size: 14,
+                color: 'rgba(0,0,0,1)'
+            },
+            showarrow: false
+        };
+        layout.annotations.push(result);
+    };
 
     Plotly.newPlot("stacked_bar_chart", data, layout, { displayModeBar: false });
 
@@ -330,6 +314,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
             tn = data.points[i].curveNumber;
             colors = data.points[i].data.marker.color;
         };
+        // colors = bar_colors;
         colors[pn] = '#FF0000';
 
         var update = { 'marker': { color: colors, opacity: 0.5 } };
