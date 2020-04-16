@@ -24,7 +24,8 @@ const mapfile = "static/data/us.json";
 const covid_confirm_file = "static/data/covid_us_confirmed.json";
 const covid_deaths_file = "static/data/covid_us_deaths.json";
 const covid_recovered_file = "static/data/covid_us_recovered.json";
-const unemploymentCases = "./static/data/unemployment_claims.json";
+const unemploymentCases = "static/data/unemployment_claims.json";
+const states_file = "static/data/states_coords.csv";
 
 async function getData(url) {
     let response = await fetch(url);
@@ -36,12 +37,16 @@ var slider = document.getElementById("myRange");
 var output = document.getElementById("value");
 output.innerHTML = '';
 var button = document.getElementById("play-button");
+var circle_layer = document.querySelector("input[name=circle-layer]");
+var marker_layer = document.querySelector("input[name=marker-layer]");
+
     
     getData(mapfile).then(mapdata => {
     getData(covid_confirm_file).then(response => {
     getData(covid_deaths_file).then(deathsData => {
     getData(covid_recovered_file).then (recoveredData => {
     getData(unemploymentCases).then(function (claimsData) {
+    d3.csv(states_file).then(tooltip_data => {
 
         // creating the map
         var projection = d3.geoAlbersUsa()
@@ -73,6 +78,7 @@ var button = document.getElementById("play-button");
                     .attr("class", "state")
                     .attr("d", path)
                     .on("click", clicked)
+
         // Setting up correct values for slider bar.
         var slider_max = Object.keys(response).length;
         d3.select(".slider").attr("max", slider_max);
@@ -107,9 +113,10 @@ var button = document.getElementById("play-button");
                                 .on('click', clicked)
         let data = Object.values(response)[0];
         let date_scatter = Object.keys(response)[2];
-        drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
+        if (circle_layer.checked === true) {drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);}
         initializeBarchart(0, response, recoveredData, deathsData);
         initializeScatter(claimsData, response, date_scatter);
+        // initializeMarker(day, data_for_marker)
 
         // Enable the sliding functionality.
         let track_date = 0;
@@ -119,7 +126,7 @@ var button = document.getElementById("play-button");
             let data = Object.values(response)[index];
             let dates = Object.keys(response);  
             output.innerHTML = `${dates[index]} (Day: ${index + 1})`;
-            drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
+            if (circle_layer.checked === true) {drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);}
             initializeBarchart(index, response, recoveredData, deathsData);
             initializeScatter(claimsData, response, dates[index]);
         };
@@ -156,6 +163,111 @@ var button = document.getElementById("play-button");
             }
 
         });
+
+        //tooltip
+        // var g = svg.append('g').attr('class', 'marker_layer');
+
+        // var div = d3.select("#US-map").append("div")
+        //     .attr("class", "tooltip")
+        //     .style("opacity", 0)
+
+        //     var nodes = g.selectAll('g.node')
+        //     .data(tooltip_data)
+        //     .enter().append('g').attr('class', 'node')
+        //     .attr('transform', function(d) { 
+        //         coordinates = projection([parseFloat(d.longitude), parseFloat(d.latitude)])
+        //         if (coordinates) {
+        //             return 'translate(' + (coordinates[0]-12) + ',' + (coordinates[1]-30) + ')';
+        //         }
+        //     })
+        //     .on("mouseover", function(d) {
+        //         div.transition()
+        //             .duration(200)
+        //             .style("opacity", 9);
+        //         div	.html(d.state)	
+        //             .style("left", (d3.event.pageX) + "px")		
+        //             .style("top", (d3.event.pageY - 28) + "px")	
+        //     })
+        //     .on("mouseout", function(d) {
+        //         div.transition()
+        //             .duration(200)
+        //             .style("opacity", 0)
+        //     })  
+        
+        // // Drawing the icons
+        // nodes.append('path')
+        // .attr('d', 'M16,0C9.382,0,4,5.316,4,12.001c0,7,6.001,14.161,10.376,19.194   C14.392,31.215,15.094,32,15.962,32c0.002,0,0.073,0,0.077,0c0.867,0,1.57-0.785,1.586-0.805   c4.377-5.033,10.377-12.193,10.377-19.194C28.002,5.316,22.619,0,16,0z M16.117,29.883c-0.021,0.02-0.082,0.064-0.135,0.098   c-0.01-0.027-0.084-0.086-0.129-0.133C12.188,25.631,6,18.514,6,12.001C6,6.487,10.487,2,16,2c5.516,0,10.002,4.487,10.002,10.002   C26.002,18.514,19.814,25.631,16.117,29.883z')
+        // .attr('fillrule', 'evenodd')
+        // .attr('cliprule', 'evenodd')
+        // .attr('fill', '#333333')
+        // .attr("stroke-width", 100000);
+        // nodes.append('path')
+        // .attr('d', 'M16.002,17.746c3.309,0,6-2.692,6-6s-2.691-6-6-6   c-3.309,0-6,2.691-6,6S12.693,17.746,16.002,17.746z M16.002,6.746c2.758,0,5,2.242,5,5s-2.242,5-5,5c-2.758,0-5-2.242-5-5   S13.244,6.746,16.002,6.746z')
+        // .attr('fillrule', 'evenodd')
+        // .attr('cliprule', 'evenodd')
+        // .attr('fill', '#333333')
+
+        circle_layer.addEventListener('change', function() {
+            if (this.checked) {
+                track_date = +slider.value - 1;
+                let index = slider.value - 1;
+                let data = Object.values(response)[index];
+                let dates = Object.keys(response);  
+                output.innerHTML = `${dates[index]} (Day: ${index + 1})`;
+                drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
+            } else {
+                drawCircleLayer(confirmLayer, Object.values(response)[0], "covid-confirmed", projection);
+            }
+        })
+
+        marker_layer.addEventListener('change', function() {
+            if (this.checked) {
+                //tooltip
+                var g = svg.append('g').attr('class', 'marker_layer');
+
+                var div = d3.select("#US-map").append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0)
+
+                    var nodes = g.selectAll('g.node')
+                    .data(tooltip_data)
+                    .enter().append('g').attr('class', 'node')
+                    .attr('transform', function(d) { 
+                        coordinates = projection([parseFloat(d.longitude), parseFloat(d.latitude)])
+                        if (coordinates) {
+                            return 'translate(' + (coordinates[0]-12) + ',' + (coordinates[1]-30) + ')';
+                        }
+                    })
+                    .on("mouseover", function(d) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", 9);
+                        div	.html(d.state)	
+                            .style("left", (d3.event.pageX) + "px")		
+                            .style("top", (d3.event.pageY - 28) + "px")	
+                    })
+                    .on("mouseout", function(d) {
+                        div.transition()
+                            .duration(200)
+                            .style("opacity", 0)
+                    })  
+                
+                // Drawing the icons
+                nodes.append('path')
+                .attr('d', 'M16,0C9.382,0,4,5.316,4,12.001c0,7,6.001,14.161,10.376,19.194   C14.392,31.215,15.094,32,15.962,32c0.002,0,0.073,0,0.077,0c0.867,0,1.57-0.785,1.586-0.805   c4.377-5.033,10.377-12.193,10.377-19.194C28.002,5.316,22.619,0,16,0z M16.117,29.883c-0.021,0.02-0.082,0.064-0.135,0.098   c-0.01-0.027-0.084-0.086-0.129-0.133C12.188,25.631,6,18.514,6,12.001C6,6.487,10.487,2,16,2c5.516,0,10.002,4.487,10.002,10.002   C26.002,18.514,19.814,25.631,16.117,29.883z')
+                .attr('fillrule', 'evenodd')
+                .attr('cliprule', 'evenodd')
+                .attr('fill', '#333333')
+                .attr("stroke-width", 100000);
+                nodes.append('path')
+                .attr('d', 'M16.002,17.746c3.309,0,6-2.692,6-6s-2.691-6-6-6   c-3.309,0-6,2.691-6,6S12.693,17.746,16.002,17.746z M16.002,6.746c2.758,0,5,2.242,5,5s-2.242,5-5,5c-2.758,0-5-2.242-5-5   S13.244,6.746,16.002,6.746z')
+                .attr('fillrule', 'evenodd')
+                .attr('cliprule', 'evenodd')
+                .attr('fill', '#333333')
+            } else {
+                d3.select(".marker_layer").remove();
+            }
+        })
         // gg.call(zoom);
         var zoomSettings = {
             duration: 1000,
@@ -189,11 +301,16 @@ var button = document.getElementById("play-button");
                     .duration(zoomSettings.duration)
                     .ease(zoomSettings.ease)
                     .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
-            confirmLayer.transition()
+            confirmLayer.transition()   
                     .duration(zoomSettings.duration)
                     .ease(zoomSettings.ease)
-                    .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');         
+                    .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')'); 
+            d3.selectAll(".marker_layer").transition()   
+            .duration(zoomSettings.duration)
+            .ease(zoomSettings.ease)
+            .attr('transform', 'translate(' + width/2 + ',' + height/2 + ')scale(' + zoomLevel + ')translate(' + -x + ',' + -y + ')');
         };
+    });
     });
     });      
     });
@@ -245,7 +362,7 @@ function moveSlider(input, response, projection) {
   
     d3.selectAll(".layers").html('');
     let confirmLayer = d3.select(".layers")
-    drawCircleLayer(confirmLayer, data, "covid-confirmed", projection)
+    if (circle_layer.checked === true) {drawCircleLayer(confirmLayer, data, "covid-confirmed", projection)}
 
     let x = slider.value/slider.max * 100;
     let color = `linear-gradient(90deg, rgb(255, 51, 51) ${x}%, rgb(214,214,214) ${x}%)`;
