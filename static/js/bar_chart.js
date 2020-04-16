@@ -368,7 +368,7 @@ function initializeDashboard(idx) {
     });
 }
 
-function initializeBarchart(idx,confirmedData, recoveredData, deathsData) {
+function initializeBarchart(idx, confirmedData, recoveredData, deathsData) {
     
                 var totalDays = Object.keys(confirmedData).length;
 
@@ -401,4 +401,5 @@ function initializeBarchart(idx,confirmedData, recoveredData, deathsData) {
                     })
 
                     createStackedBarChart(dateString, sortedAllCasesPerStateDict);
+                    return sortedSumOfAllCasesPerStateDict;
 }
