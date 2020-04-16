@@ -1,27 +1,27 @@
 function initializeScatter(claimsData, casesData, date) {
 
-      var datesList = [];
-      var unemployment = [];
-      var covidCases = [];
-  
-      for (var i = 0; i < Object.keys(casesData).length; i++) {
-        for (var j = 0; j < Object.keys(claimsData).length; j++) {
+  var datesList = [];
+  var unemployment = [];
+  var covidCases = [];
 
-          // Retrive data for matching dates from both datasets
-          if (Object.keys(casesData)[i] === Object.keys(claimsData)[j]) {
-            // Put dates as a list to reference index later
-            datesList.push(Object.keys(casesData)[i]);
-  
-            // For covid-cases data
-            var records = Object.values(casesData)[i];
-            var statesWithTotalCases = sumScatter(records);
-            // Push data to a list
-            covidCases.push(statesWithTotalCases);
-            unemployment.push(Object.values(claimsData)[j]);
-          }
-        }
+  for (var i = 0; i < Object.keys(casesData).length; i++) {
+    for (var j = 0; j < Object.keys(claimsData).length; j++) {
+
+      // Retrive data for matching dates from both datasets
+      if (Object.keys(casesData)[i] === Object.keys(claimsData)[j]) {
+        // Put dates as a list to reference index later
+        datesList.push(Object.keys(casesData)[i]);
+
+        // For covid-cases data
+        var records = Object.values(casesData)[i];
+        var statesWithTotalCases = sumScatter(records);
+        // Push data to a list
+        covidCases.push(statesWithTotalCases);
+        unemployment.push(Object.values(claimsData)[j]);
       }
-      createScatter(datesList, covidCases, unemployment, date);
+    }
+  }
+  createScatter(datesList, covidCases, unemployment, date);
 
 }
 var dayAndWeekX;
@@ -36,11 +36,11 @@ function returnXaxisdata(datesList, covidCases, dateX) {
     index = dayAndWeekX;
   };
 
-    Object.entries(covidCases[index]).forEach(function ([state, cases]) {
-      xaxisData.push(Math.log10(cases));
-    });
+  Object.entries(covidCases[index]).forEach(function ([state, cases]) {
+    xaxisData.push(Math.log10(cases));
+  });
 
-    return xaxisData;
+  return xaxisData;
 }
 
 function returnYaxisdata(datesList, unemploymentClaims, dateY) {
@@ -91,11 +91,12 @@ function createScatter(datesList, confirmedCases, unemploymentData, date) {
   var format = {
     title: "COVID-19 Confirmed Cases vs Unemployment Claims",
     xaxis: { title: "COVID-19 Confirmed Cases" },
-    yaxis: { title: "Unemployment Claims(per week)",
-             range: [0, 500000],        
-           },
+    yaxis: {
+      title: "Unemployment Claims(per week)",
+      range: [0, 500000],
+    },
   };
-  Plotly.newPlot("scatter", data, format);
+  Plotly.newPlot("scatter", data, format, { displayModeBar: false });
 }
 
 function sumScatter(array) {
