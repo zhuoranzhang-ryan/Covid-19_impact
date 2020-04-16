@@ -1,0 +1,8 @@
+#scatter {
+  border-width: 1px;
+  border-color: black;
+  margin: 50px;
+  padding: 100px;
+  width: 60%;
+  height: 500px;
+}

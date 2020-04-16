@@ -1,61 +1,52 @@
-// var confirmedCases = "./static/data/covid_us_confirmed.json";
-// var unemploymentCases = "./static/data/unemployment_claims.json";
-
-// // Set an empty array
-// var unemployment = [];
-// var covidCases = [];
-// var datesList = [];
-// var states = [];
-// Get confirmed cases data
+// Initialize scatter plot using date, confirmed cases and unemployment cases data
 function initializeScatter(claimsData, casesData, date) {
-    // console.log(date);
+  var datesList = [];
+  var unemployment = [];
+  var covidCases = [];
 
-      var datesList = [];
-      var unemployment = [];
-      var covidCases = [];
-      // console.log(casesData);
-      // console.log(claimsData);
-      for (var i = 0; i < Object.keys(casesData).length; i++) {
-        for (var j = 0; j < Object.keys(claimsData).length; j++) {
-
-          // Retrive data for matching dates from both datasets
-          if (Object.keys(casesData)[i] === Object.keys(claimsData)[j]) {
-            // Put dates as a list to reference index later
-            datesList.push(Object.keys(casesData)[i]);
-  
-            // For covid-cases data
-            var records = Object.values(casesData)[i];
-            var statesWithTotalCases = sumScatter(records);
-            // Push data to a list
-            covidCases.push(statesWithTotalCases);
-            unemployment.push(Object.values(claimsData)[j]);
-          }
-        }
+  for (var i = 0; i < Object.keys(casesData).length; i++) {
+    for (var j = 0; j < Object.keys(claimsData).length; j++) {
+      console.log("States List", Object.values(claimsData))[j];
+      // Retrive data for matching dates from both datasets
+      if (Object.keys(casesData)[i] === Object.keys(claimsData)[j]) {
+        // Put dates as a list to reference index later
+        datesList.push(Object.keys(casesData)[i]);
+        // For covid-cases data, create sum of cases per state
+        var records = Object.values(casesData)[i];
+        var statesWithTotalCases = sumScatter(records);
+        // Push data to a list
+        covidCases.push(statesWithTotalCases);
+        unemployment.push(Object.values(claimsData)[j]);
       }
-      createScatter(datesList, covidCases, unemployment, date);
+    }
+  }
 
+  createScatter(datesList, covidCases, unemployment, date);
 }
 var dayAndWeekX;
 var dayAndWeekY;
+
+// Create a function to return data values for x-axis
 function returnXaxisdata(datesList, covidCases, dateX) {
   xaxisData = [];
   var index;
+
+  // If date from map is in dates list, update data. Otherwise keep showing current graph
   if (datesList.includes(dateX)) {
     index = datesList.indexOf(dateX);
     dayAndWeekX = index;
   } else {
     index = dayAndWeekX;
-  };
+  }
+  Object.entries(covidCases[index]).forEach(function ([state, cases]) {
+    xaxisData.push(Math.log10(cases));
+    // xaxisData.push(cases);
+  });
 
-    // console.log(index);
-    Object.entries(covidCases[index]).forEach(function ([state, cases]) {
-      xaxisData.push(Math.log10(cases));
-    });
-
-    // console.log("Confirmed Cases Data for Plot", xaxisData);
-    return xaxisData;
+  return xaxisData, datesList, index;
 }
 
+// Create a function to return
 function returnYaxisdata(datesList, unemploymentClaims, dateY) {
   yaxisData = [];
   states = [];
@@ -65,51 +56,56 @@ function returnYaxisdata(datesList, unemploymentClaims, dateY) {
     dayAndWeekY = index;
   } else {
     index = dayAndWeekY;
-  };
+  }
 
-  // var index = datesList.indexOf(dateY);
   for (var i = 0; i < unemploymentClaims[index].length; i++) {
-
     yaxisData.push(Object.values(unemploymentClaims[index][i]));
     yaxisData = yaxisData.flat();
     states.push(Object.keys(unemploymentClaims[index][i]));
     states = states.flat();
   }
-  // console.log("Unemployment Data for Plot", yaxisData);
-  // console.log("Unemployment Data for Plot", states);
   return states, yaxisData;
 }
 
 // Create scatter plot
 function createScatter(datesList, confirmedCases, unemploymentData, date) {
-  // Get value only from covid data
   let dateXY = date;
-  // Get value only from unemployment data
   returnYaxisdata(datesList, unemploymentData, dateXY);
   returnXaxisdata(datesList, confirmedCases, dateXY);
 
+  var index;
+  if (datesList.includes(dateXY)) {
+    index = datesList.indexOf(dateXY);
+    dayAndWeekX = index;
+  } else {
+    index = dayAndWeekX;
+  }
   var data = [
     {
-      // x: covidCases,
-      x: xaxisData, // unemployment claims data for each state
-      y: yaxisData, //create yaxis return data // covid-19 confirmed cases for each state
+      x: xaxisData, // covid-19 confirmed cases for each state
+      y: yaxisData, // unemployment claims data for each state
       mode: "markers",
       type: "scatter",
       text: states,
       marker: {
         size: 15,
-        color: "LightSkyBlue",
+        color: "#FF0000",
+        opacity: 0.5,
         line: { width: 2, color: "DarkSlateGrey" },
       },
     },
   ];
 
   var format = {
-    title: "COVID-19 Confirmed Cases vs Unemployment Claims",
-    xaxis: { title: "COVID-19 Confirmed Cases" },
-    yaxis: { title: "Unemployment Claims(per week)",
-             range: [0, 500000],        
-  },
+    title: `Week of ${datesList[index]}`,
+    xaxis: {
+      title: "COVID-19 Confirmed Cases (log10)",
+      // range: [0, Math.max.apply(Math, xaxisData)],
+    },
+    yaxis: {
+      title: "Unemployment Claims (per week)",
+      range: [0, 500000],
+    },
   };
   Plotly.newPlot("scatter", data, format);
 }
@@ -172,16 +168,11 @@ function sumScatter(array) {
     "Wyoming",
   ];
 
-  // console.log(states);
-  // Initialize totalCasesPerState with 0
-
   // Copy array and set it to zero
-  var totalCasesPerState = [...states]; // APPARENTLY, this is how you copy an array in Javascript!
+  var totalCasesPerState = [...states];
   totalCasesPerState.fill(0);
 
   for (let idx = 0; idx < array.length; idx++) {
-    // console.log(`${array[idx].Province}: ${array[idx].Cases}`);
-
     var stateIndex = states.indexOf(array[idx].Province);
 
     if (stateIndex > -1) {
@@ -199,8 +190,3 @@ function sumScatter(array) {
 
   return statesWithTotalCases;
 }
-
-// initializeScatter();
-// function dateIsValid(claimsData, response, date) {
-
-// }
