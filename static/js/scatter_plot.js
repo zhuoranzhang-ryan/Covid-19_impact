@@ -1,4 +1,3 @@
-// Initialize scatter plot using date, confirmed cases and unemployment cases data
 function initializeScatter(claimsData, casesData, date) {
   var datesList = [];
   var unemployment = [];
@@ -6,12 +5,12 @@ function initializeScatter(claimsData, casesData, date) {
 
   for (var i = 0; i < Object.keys(casesData).length; i++) {
     for (var j = 0; j < Object.keys(claimsData).length; j++) {
-      console.log("States List", Object.values(claimsData))[j];
       // Retrive data for matching dates from both datasets
       if (Object.keys(casesData)[i] === Object.keys(claimsData)[j]) {
         // Put dates as a list to reference index later
         datesList.push(Object.keys(casesData)[i]);
-        // For covid-cases data, create sum of cases per state
+
+        // For covid-cases data
         var records = Object.values(casesData)[i];
         var statesWithTotalCases = sumScatter(records);
         // Push data to a list
