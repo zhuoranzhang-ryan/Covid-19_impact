@@ -465,5 +465,6 @@ function initializeBarchart(idx, confirmedData, recoveredData, deathsData) {
     })
 
     createStackedBarChart(dateString, sortedAllCasesPerStateDict);
-    return sortedSumOfAllCasesPerStateDict;
+    // console.log(sortedAllCasesPerStateDict);
+    return sortedAllCasesPerStateDict;
 }
