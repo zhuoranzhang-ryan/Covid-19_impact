@@ -11,78 +11,75 @@ html {
   font-size: 62.5%;
 }
 
+.navbar {
+  background-color: rgb(40, 51, 74) !important;
+  /* color: white; */
+  font-family: sans-serif;
+  font-size: 30px;
+  height: 150px;
+  /* background-color:wheat; */
+  /* width: 50%; */
+}
+
+.navbar-light .navbar-nav {
+  color: white;
+}
+
 body {
   background-color: rgb(245, 245, 245);
 }
 
-/* CSS for navbar */
-.navbar {
-  background-color: rgb(40, 51, 74) !important;
-  font-family: sans-serif;
-  font-size: 20px;
-  height: 8rem;
-}
-
-.navbar-light .navbar-brand {
-  color: white;
-  font-size: 30px;
-  padding: 0rem;
-  padding-left: 4rem;
-}
-
-.nav-item {
-  color: white;
-}
-
-/* CSS for update data button  */
-.text-center {
-  padding: 1rem 0rem 0rem 0rem;
-}
-
 .btn {
-  font-size: 20px;
+  font-size: 30px;
   font-family: sans-serif;
 }
 
 h5 {
-  font-size: 10px;
+  font-size: 20px;
   font-family: sans-serif;
 }
 
-/* CSS for US Map */
-#map-container{
-  background-color: white;
-  /* margin-left: 1rem; */
-}
-
-.slideContainer {
-  text-align: center;
-  /* padding: 10rem; */
-  /* margin-top: 1rem;
-  margin-left: 3rem; */
-}
-
-
-#play-button {
-  width: 5rem;
-  height: 5rem;
-  font-size: 7px;
+h4 {
+  font-size: 30px;
   font-family: sans-serif;
+  font-weight: bold;
 }
-.current-date {
-  font-size: 10px;
-  font-family: sans-serif;
+.navbar-light .navbar-brand {
+  color: white;
+  font-size: 50px;
+  padding: 0rem;
+  padding-left: 4rem;
 }
 
-#checkbox_container {
-  border: sold;
+.nav-link {
+  color: white;
+}
+
+#stacked_bar_chart {
+  /* border: solid;
   border-width: 1px;
-  border-color: black;
-  text-align: center;
-  margin: auto;
-  width: 50%;
-  background-color: lightgray;
-  font-size: 10px;
+  border-color: black; */
+  /* margin:50px; */
+  /* padding:10px;   */
+  width: 125rem;
+  height: 75rem;
+  padding: 5rem 30rem 5rem 30rem;
+}
+#scatter-plot {
+  /* border: solid;
+  border-width: 1px;
+  border-color: black; */
+  /* margin:50px; */
+  /* padding:100px;   */
+  width: 125rem;
+  height: 75rem;
+  padding: 5rem 30rem 5rem 30rem;
+}
+
+svg {
+  padding: 5rem 20rem 5rem 20rem;
+  background: none;
+  width: 100%;
 }
 
 .state {
@@ -97,44 +94,16 @@ h5 {
   stroke-width: 0.15;
   opacity: 0.7;
 }
-
-/* CSS for barchart and scatter plot */
-h4{
-  background-color: rgb(40, 51, 74);
-  color:White;
-  text-align: center;
-  font-size: 18px;
-  font-family: sans-serif;
-  /* font-weight: bold; */
-  /* padding: 0rem 0rem 0rem 0rem; */
-}
-
-
-
-#stacked_bar_chart {
-  height: 30rem;
-}
-
-#scatter-plot {
-  height: 30rem;
-}
-
-/* svg {
-  padding: 5rem 20rem 5rem 20rem;
-  background: none;
-  width: 100%;
-} */
-
 /* .map-layer {
   /* border: solid;
   border-color: black;
   border-width: 1px; */
 /* } */
 
-/* .covid-confirmed { */
-/* fill: red; */
-/* transition: fill 3s ease; */
-/* stroke-width: 0.05;
+.covid-confirmed {
+  /* fill: red; */
+  /* transition: fill 3s ease; */
+  stroke-width: 0.05;
   stroke: seashell;
   opacity: 0.7;
 }
@@ -150,7 +119,7 @@ h4{
   width: 400px;
   margin-top: 10px;
   margin-left: 250px;
-} */
+}
 
 /* .slider::after {
     content: 'Day 100';
@@ -167,7 +136,7 @@ h4{
     position: absolute;
     left: 1%;
     bottom: 35%; */
-/* }
+/* } */
 .slider {
   -webkit-appearance: none;
   width: 100%;
@@ -199,23 +168,29 @@ h4{
   cursor: pointer;
 }
 #US-map {
-  height: 100%;
-  width: 100%;
+  /* border: solid;
+  border-width: 1px;
+  border-color: black; */
+  height: 200rem;
+  width: 200rem;
   padding: 10px;
   margin: 10px;
-}
-
-.map-svg {
-  width: 100% !important;
+  /* background-color: wheat; */
 }
 .container {
+  /* border: solid;
+  border-width: 1px;
+  border-color: black; */
+  /* margin:auto; */
   padding: 5px;
 }
 
 #charts-container {
+  /* background-color: thistle; */
   width: 95%;
 }
 #map-container {
+  /* background-color: wheat; */
   height: 120rem;
 }
 #footnotes-container {
@@ -223,4 +198,15 @@ h4{
   border-color: black;
   border-width: 1px;
   background-color: beige;
+}
+#checkbox_container {
+  border: solid;
+  border-width: 1px;
+  border-color: black;
+  text-align: center;
+  margin: auto;
+  /* padding:100px;   */
+  width: 50%;
+  /* height: 350px; */
+  background-color: lightgray;
 }
