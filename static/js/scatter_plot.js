@@ -106,7 +106,7 @@ function createScatter(datesList, confirmedCases, unemploymentData, date) {
       range: [0, 500000],
     },
   };
-  Plotly.newPlot("scatter", data, format);
+  Plotly.newPlot("scatter-plot", data, format, { displayModeBar: false });
 }
 
 function sumScatter(array) {
