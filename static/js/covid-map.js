@@ -195,7 +195,7 @@ getData(mapfile).then(mapdata => {
                             .style("opacity", 9);
                         div	.html(d.state)	
                             .style("left", (d3.event.pageX) + "px")		
-                            .style("top", (d3.event.pageY - 28) + "py")	
+                            .style("top", (d3.event.pageY - 28) + "px")	
                     })
                     .on("mouseout", function(d) {
                         div.transition()
@@ -308,7 +308,7 @@ function initializeMarker(tooltip_data, state_sum_data, projection) {
                 .style("opacity", 9);
             div	.html(`${d.state} <br> Confirmed: ${state_sum_data[d.name][0]} <br> Deaths: ${state_sum_data[d.name][1]}`)	
                 .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "py")	
+                .style("top", (d3.event.pageY - 28) + "px")	
         })
         .on("mouseout", function(d) {
             div.transition()
