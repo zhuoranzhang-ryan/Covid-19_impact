@@ -114,9 +114,9 @@ var marker_layer = document.querySelector("input[name=marker-layer]");
         let data = Object.values(response)[0];
         let date_scatter = Object.keys(response)[2];
         if (circle_layer.checked === true) {drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);}
-        initializeBarchart(0, response, recoveredData, deathsData);
+        let state_sum_data = initializeBarchart(0, response, recoveredData, deathsData);
         initializeScatter(claimsData, response, date_scatter);
-        // initializeMarker(day, data_for_marker)
+        if (marker_layer.checked === true) {initializeMarker(tooltip_data, state_sum_data, projection);};
 
         // Enable the sliding functionality.
         let track_date = 0;
@@ -127,8 +127,9 @@ var marker_layer = document.querySelector("input[name=marker-layer]");
             let dates = Object.keys(response);  
             output.innerHTML = `${dates[index]} (Day: ${index + 1})`;
             if (circle_layer.checked === true) {drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);}
-            initializeBarchart(index, response, recoveredData, deathsData);
+            let state_sum_data = initializeBarchart(index, response, recoveredData, deathsData);
             initializeScatter(claimsData, response, dates[index]);
+            if (marker_layer.checked === true) {initializeMarker(tooltip_data, state_sum_data, projection);};
         };
         
         // Enable the play button functionality.
@@ -149,9 +150,9 @@ var marker_layer = document.querySelector("input[name=marker-layer]");
                         play_flag = false;
                     } else {
                         moveSlider(track_date, response, projection);
-                        initializeBarchart(track_date - 1, response, recoveredData, deathsData);
+                        let state_sum_data = initializeBarchart(track_date - 1, response, recoveredData, deathsData);
                         initializeScatter(claimsData, response, dates[track_date]);
-                        
+                        if (marker_layer.checked === true) {initializeMarker(tooltip_data, state_sum_data, projection);};
                         track_date += 1;
                     }      
             }, 200);
@@ -176,6 +177,7 @@ var marker_layer = document.querySelector("input[name=marker-layer]");
                 drawCircleLayer(confirmLayer, Object.values(response)[0], "covid-confirmed", projection);
             }
         })
+
 
         marker_layer.addEventListener('change', function() {
             if (this.checked) {
@@ -222,7 +224,7 @@ var marker_layer = document.querySelector("input[name=marker-layer]");
                 .attr('cliprule', 'evenodd')
                 .attr('fill', '#333333')
             } else {
-                d3.select(".marker_layer").remove();
+                d3.selectAll(".marker_layer").remove();
             }
         })
         // gg.call(zoom);
@@ -324,4 +326,52 @@ function moveSlider(input, response, projection) {
     let x = slider.value/slider.max * 100;
     let color = `linear-gradient(90deg, rgb(255, 51, 51) ${x}%, rgb(214,214,214) ${x}%)`;
     slider.style.background = color;
+}
+
+function initializeMarker(tooltip_data, state_sum_data, projection) {
+
+    d3.selectAll(".marker_layer").remove();
+    d3.selectAll(".tooltip").remove();
+
+    var g = svg.append('g').attr('class', 'marker_layer');
+
+    var div = d3.select("#US-map").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+
+        var nodes = g.selectAll('g.node')
+        .data(tooltip_data)
+        .enter().append('g').attr('class', 'node')
+        .attr('transform', function(d) { 
+            coordinates = projection([parseFloat(d.longitude), parseFloat(d.latitude)])
+            if (coordinates) {
+                return 'translate(' + (coordinates[0]-12) + ',' + (coordinates[1]-30) + ')';
+            }
+        })
+        .on("mouseover", function(d) {
+            div.transition()
+                .duration(200)
+                .style("opacity", 9);
+            div	.html(`${d.state} <br> Confirmed: ${state_sum_data[d.name][0]} <br> Deaths: ${state_sum_data[d.name][1]}`)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px")	
+        })
+        .on("mouseout", function(d) {
+            div.transition()
+                .duration(200)
+                .style("opacity", 0)
+        })  
+    
+    // Drawing the icons
+    nodes.append('path')
+    .attr('d', 'M16,0C9.382,0,4,5.316,4,12.001c0,7,6.001,14.161,10.376,19.194   C14.392,31.215,15.094,32,15.962,32c0.002,0,0.073,0,0.077,0c0.867,0,1.57-0.785,1.586-0.805   c4.377-5.033,10.377-12.193,10.377-19.194C28.002,5.316,22.619,0,16,0z M16.117,29.883c-0.021,0.02-0.082,0.064-0.135,0.098   c-0.01-0.027-0.084-0.086-0.129-0.133C12.188,25.631,6,18.514,6,12.001C6,6.487,10.487,2,16,2c5.516,0,10.002,4.487,10.002,10.002   C26.002,18.514,19.814,25.631,16.117,29.883z')
+    .attr('fillrule', 'evenodd')
+    .attr('cliprule', 'evenodd')
+    .attr('fill', '#333333')
+    .attr("stroke-width", 100000);
+    nodes.append('path')
+    .attr('d', 'M16.002,17.746c3.309,0,6-2.692,6-6s-2.691-6-6-6   c-3.309,0-6,2.691-6,6S12.693,17.746,16.002,17.746z M16.002,6.746c2.758,0,5,2.242,5,5s-2.242,5-5,5c-2.758,0-5-2.242-5-5   S13.244,6.746,16.002,6.746z')
+    .attr('fillrule', 'evenodd')
+    .attr('cliprule', 'evenodd')
+    .attr('fill', '#333333') 
 }
