@@ -38,154 +38,154 @@ function sumCasesPerState(array) {
     return statesWithTotalCases;
 }
 
-function createBarChart(dateString, covidData) {
-    // console.log(covidData);
+// function createBarChart(dateString, covidData) {
+//     // console.log(covidData);
 
-    sortedCovidData = sort_object(covidData);
+//     sortedCovidData = sort_object(covidData);
 
-    var xValues = [];
-    var yValues = [];
+//     var xValues = [];
+//     var yValues = [];
 
-    // Populate x and y values
-    Object.entries(sortedCovidData).forEach(function ([state, cases]) {
-        xValues.push(state);
-        yValues.push(cases);
-    });
+//     // Populate x and y values
+//     Object.entries(sortedCovidData).forEach(function ([state, cases]) {
+//         xValues.push(state);
+//         yValues.push(cases);
+//     });
 
-    console.log(xValues);
-    console.log(yValues);
+//     console.log(xValues);
+//     console.log(yValues);
 
-    // console.log(Math.max.apply(Math, yValues));
+//     // console.log(Math.max.apply(Math, yValues));
 
-    var trace = {
-        x: yValues.slice(0, 16),
-        y: xValues.slice(0, 16),
-        type: "scatter",
-        orientation: "h",
-        name: "confirmedCases",
-        // text: labels,
-        marker: {
-            color: "rgba(50,171,96,0.6)",
-            line: {
-                color: "rgba(50,171,96,1.0)",
-                width: 0,
-            },
-        },
-        hovertemplate: "Confirmed: %{x}<br>" + "<extra></extra>",
-    };
-    var layout = {
-        title: `Top 15 states with confirmed cases on ${dateString}`,
-        margin: {
-            l: 120,
-            r: 20,
-            t: 30,
-            b: 40,
-        },
-        yaxis: {
-            autorange: "reversed",
-            ticks: "outside",
-            ticklen: 10,
-            tickcolor: "white",
-            linecolor: "gray",
-            linewidth: 0.01,
-            mirror: true,
-        },
-        xaxis: {
-            // tickformat: ',.0%',
-            range: [0, Math.max.apply(Math, yValues)],
-            // side: "top",
-            tickmode: "linear",
-            tick0: 0,
-            dtick: Math.round(Math.max.apply(Math, yValues) / 5),
-            border: 1,
-            linecolor: "gray",
-            linewidth: 0.5,
-            mirror: true,
-        },
-    };
+//     var trace = {
+//         x: yValues.slice(0, 16),
+//         y: xValues.slice(0, 16),
+//         type: "scatter",
+//         orientation: "h",
+//         name: "confirmedCases",
+//         // text: labels,
+//         marker: {
+//             color: "rgba(50,171,96,0.6)",
+//             line: {
+//                 color: "rgba(50,171,96,1.0)",
+//                 width: 0,
+//             },
+//         },
+//         hovertemplate: "Confirmed: %{x}<br>" + "<extra></extra>",
+//     };
+//     var layout = {
+//         title: `Top 15 states with confirmed cases on ${dateString}`,
+//         margin: {
+//             l: 120,
+//             r: 20,
+//             t: 30,
+//             b: 40,
+//         },
+//         yaxis: {
+//             autorange: "reversed",
+//             ticks: "outside",
+//             ticklen: 10,
+//             tickcolor: "white",
+//             linecolor: "gray",
+//             linewidth: 0.01,
+//             mirror: true,
+//         },
+//         xaxis: {
+//             // tickformat: ',.0%',
+//             range: [0, Math.max.apply(Math, yValues)],
+//             // side: "top",
+//             tickmode: "linear",
+//             tick0: 0,
+//             dtick: Math.round(Math.max.apply(Math, yValues) / 5),
+//             border: 1,
+//             linecolor: "gray",
+//             linewidth: 0.5,
+//             mirror: true,
+//         },
+//     };
 
-    var data = [trace];
+//     var data = [trace];
 
-    Plotly.newPlot("scatter", data, layout, { displayModeBar: false });
-    // console.log(statesWithTotalCases);
+//     Plotly.newPlot("scatter", data, layout, { displayModeBar: false });
+//     // console.log(statesWithTotalCases);
 
-    return statesWithTotalCases;
-}
+//     return statesWithTotalCases;
+// }
 
-function createBarChart(dateString, covidData) {
-    // console.log(covidData);
+// function createBarChart(dateString, covidData) {
+//     // console.log(covidData);
 
-    sortedCovidData = (sort_object(covidData));
-    // sortedCovidData = ((covidData));
+//     sortedCovidData = (sort_object(covidData));
+//     // sortedCovidData = ((covidData));
 
-    var xValues = [];
-    var yValues = [];
+//     var xValues = [];
+//     var yValues = [];
 
-    // Populate x and y values
-    Object.entries(sortedCovidData).forEach(function ([state, cases]) {
-        xValues.push(state);
-        yValues.push(cases);
-    });
+//     // Populate x and y values
+//     Object.entries(sortedCovidData).forEach(function ([state, cases]) {
+//         xValues.push(state);
+//         yValues.push(cases);
+//     });
 
-    console.log(xValues);
-    console.log(yValues);
+//     console.log(xValues);
+//     console.log(yValues);
 
-    // console.log(Math.max.apply(Math, yValues));
+//     // console.log(Math.max.apply(Math, yValues));
 
 
-    var trace = {
-        x: yValues.slice(0, 16),
-        y: xValues.slice(0, 16),
-        type: "bar",
-        orientation: "h",
-        name: "confirmedCases",
-        // text: labels,
-        marker: {
-            color: 'rgba(50,171,96,0.6)',
-            line: {
-                color: 'rgba(50,171,96,1.0)',
-                width: 0
-            }
-        },
-        hovertemplate:
-            "Confirmed: %{x}<br>" +
-            "<extra></extra>"
-    }
-    var layout = {
-        title: `Top 15 states with confirmed cases on ${dateString}`,
-        margin: {
-            l: 120,
-            r: 20,
-            t: 30,
-            b: 40
-        },
-        yaxis: {
-            autorange: "reversed",
-            ticks: "outside",
-            ticklen: 10,
-            tickcolor: "white",
-            linecolor: 'gray',
-            linewidth: 0.01,
-            mirror: true
-        },
-        xaxis: {
-            // tickformat: ',.0%',
-            range: [0, Math.max.apply(Math, yValues)],
-            // side: "top",
-            tickmode: "linear",
-            tick0: 0,
-            dtick: Math.round(Math.max.apply(Math, yValues) / 5),
-            border: 1,
-            linecolor: 'gray',
-            linewidth: 0.5,
-            mirror: true
-        }
-    };
+//     var trace = {
+//         x: yValues.slice(0, 16),
+//         y: xValues.slice(0, 16),
+//         type: "bar",
+//         orientation: "h",
+//         name: "confirmedCases",
+//         // text: labels,
+//         marker: {
+//             color: 'rgba(50,171,96,0.6)',
+//             line: {
+//                 color: 'rgba(50,171,96,1.0)',
+//                 width: 0
+//             }
+//         },
+//         hovertemplate:
+//             "Confirmed: %{x}<br>" +
+//             "<extra></extra>"
+//     }
+//     var layout = {
+//         title: `Top 15 states with confirmed cases on ${dateString}`,
+//         margin: {
+//             l: 120,
+//             r: 20,
+//             t: 30,
+//             b: 40
+//         },
+//         yaxis: {
+//             autorange: "reversed",
+//             ticks: "outside",
+//             ticklen: 10,
+//             tickcolor: "white",
+//             linecolor: 'gray',
+//             linewidth: 0.01,
+//             mirror: true
+//         },
+//         xaxis: {
+//             // tickformat: ',.0%',
+//             range: [0, Math.max.apply(Math, yValues)],
+//             // side: "top",
+//             tickmode: "linear",
+//             tick0: 0,
+//             dtick: Math.round(Math.max.apply(Math, yValues) / 5),
+//             border: 1,
+//             linecolor: 'gray',
+//             linewidth: 0.5,
+//             mirror: true
+//         }
+//     };
 
-    var data = [trace];
+//     var data = [trace];
 
-    Plotly.newPlot("stacked_bar_chart", data, layout, { displayModeBar: false });
-}
+//     Plotly.newPlot("stacked_bar_chart", data, layout, { displayModeBar: false });
+// }
 // source: https://bit.ly/3bYZ2NY
 function sort_object(obj) {
     var items = Object.keys(obj).map(function (key) {
@@ -277,7 +277,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
         },
         // hoverinfo: text,
         hovertemplate:
-            "%{x} of Total Cases<br>%{text}" +
+            "%{x} of Total Cases<br>" +
             "<extra></extra>"
     }
 

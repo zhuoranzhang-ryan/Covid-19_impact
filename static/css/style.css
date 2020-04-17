@@ -18,9 +18,10 @@ body {
 /* CSS for navbar */
 .navbar {
   background-color: rgb(40, 51, 74) !important;
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
   font-size: 20px;
   height: 8rem;
+  margin-bottom: 1rem;
 }
 
 .navbar-light .navbar-brand {
@@ -30,29 +31,25 @@ body {
   padding-left: 4rem;
 }
 
-.nav-item {
-  color: white;
+a {
+  color: white !important;
 }
 
 /* CSS for update data button  */
-.text-center {
-  padding: 1rem 0rem 0rem 0rem;
-}
-
 .btn {
   font-size: 20px;
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
 }
 
 h5 {
   font-size: 10px;
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
 }
 
 /* CSS for US Map */
 #map-container{
   background-color: white;
-  /* margin-left: 1rem; */
+  padding:0;
 }
 
 .slideContainer {
@@ -67,11 +64,11 @@ h5 {
   width: 5rem;
   height: 5rem;
   font-size: 7px;
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
 }
 .current-date {
   font-size: 10px;
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
 }
 
 #checkbox_container {
@@ -83,6 +80,7 @@ h5 {
   width: 50%;
   background-color: lightgray;
   font-size: 10px;
+  font-family: 'Roboto Slab', serif;
 }
 
 .state {
@@ -99,12 +97,16 @@ h5 {
 }
 
 /* CSS for barchart and scatter plot */
+#charts-container {
+  padding:0;
+}
+
 h4{
   background-color: rgb(40, 51, 74);
   color:White;
   text-align: center;
   font-size: 18px;
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
   /* font-weight: bold; */
   /* padding: 0rem 0rem 0rem 0rem; */
 }
@@ -198,25 +200,9 @@ h4{
   border-radius: 50%;
   cursor: pointer;
 }
-#US-map {
-  height: 100%;
-  width: 100%;
-  padding: 10px;
-  margin: 10px;
-}
 
 .map-svg {
   width: 100% !important;
-}
-.container {
-  padding: 5px;
-}
-
-#charts-container {
-  width: 95%;
-}
-#map-container {
-  height: 120rem;
 }
 #footnotes-container {
   border: solid;
