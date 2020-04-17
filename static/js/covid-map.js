@@ -53,6 +53,7 @@ getData(mapfile).then(mapdata => {
 
         var path = d3.geoPath()
                     .projection(projection)
+
         
         var counties = topojson.feature(mapdata, mapdata.objects.counties).features
 
@@ -194,7 +195,7 @@ getData(mapfile).then(mapdata => {
                             .style("opacity", 9);
                         div	.html(d.state)	
                             .style("left", (d3.event.pageX) + "px")		
-                            .style("top", (d3.event.pageY - 28) + "px")	
+                            .style("top", (d3.event.pageY - 28) + "py")	
                     })
                     .on("mouseout", function(d) {
                         div.transition()
@@ -217,6 +218,7 @@ getData(mapfile).then(mapdata => {
             } else {
                 d3.selectAll(".marker_layer").remove();
             }
+
         })
         // gg.call(zoom);
         
@@ -306,7 +308,7 @@ function initializeMarker(tooltip_data, state_sum_data, projection) {
                 .style("opacity", 9);
             div	.html(`${d.state} <br> Confirmed: ${state_sum_data[d.name][0]} <br> Deaths: ${state_sum_data[d.name][1]}`)	
                 .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px")	
+                .style("top", (d3.event.pageY - 28) + "py")	
         })
         .on("mouseout", function(d) {
             div.transition()
