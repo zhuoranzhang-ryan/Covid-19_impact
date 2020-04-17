@@ -277,7 +277,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
         },
         // hoverinfo: text,
         hovertemplate:
-            "%{x} of Total Cases<br>%{text}" +
+            "%{x} of Total Cases<br>" +
             "<extra></extra>"
     }
 
