@@ -20,12 +20,12 @@ var svg = d3.select("#US-map")
     .attr("class", "map-layer")
 
 // file directories/urls.
-const mapfile = "static/data/us.json";
-const covid_confirm_file = "static/data/covid_us_confirmed.json";
-const covid_deaths_file = "static/data/covid_us_deaths.json";
-const covid_recovered_file = "static/data/covid_us_recovered.json";
-const unemploymentCases = "static/data/unemployment_claims.json";
-const states_file = "static/data/states_coords.csv";
+const mapfile = "../static/data/us.json";
+const covid_confirm_file = "../static/data/covid_us_confirmed.json";
+const covid_deaths_file = "../static/data/covid_us_deaths.json";
+const covid_recovered_file = "../static/data/covid_us_recovered.json";
+const unemploymentCases = "../static/data/unemployment_claims.json";
+const states_file = "../static/data/states_coords.csv";
 
 async function getData(url) {
     let response = await fetch(url);

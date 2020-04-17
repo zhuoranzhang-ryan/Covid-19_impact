@@ -1,6 +1,6 @@
-var confirmedCases = "./static/data/covid_us_confirmed.json"
-var recoveredCases = "./static/data/covid_us_recovered.json"
-var deathCases = "./static/data/covid_us_deaths.json"
+var confirmedCases = "../static/data/covid_us_confirmed.json"
+var recoveredCases = "../static/data/covid_us_recovered.json"
+var deathCases = "../static/data/covid_us_deaths.json"
 
 function sumCasesPerState(array) {
     //source: https://gist.github.com/tleen/6299431
