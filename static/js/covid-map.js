@@ -258,7 +258,7 @@ getData(mapfile).then((mapdata) => {
                       div
                         .html(d.state)
                         .style("left", d3.event.pageX + "px")
-                        .style("top", d3.event.pageY - 28 + "px");
+                        .style("top", d3.event.pageY - (svgHeight/3) + "px");
                     })
                     .on("mouseout", function (d) {
                       div.transition().duration(200).style("opacity", 0);
@@ -401,7 +401,7 @@ function initializeMarker(tooltip_data, state_sum_data, projection) {
           } <br> Deaths: ${state_sum_data[d.name][1]}`
         )
         .style("left", d3.event.pageX + "px")
-        .style("top", d3.event.pageY - 28 + "px");
+        .style("top", d3.event.pageY - (svgHeight/3) + "px");
     })
     .on("mouseout", function (d) {
       div.transition().duration(200).style("opacity", 0);
