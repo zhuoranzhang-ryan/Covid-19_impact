@@ -107,11 +107,11 @@ div.tooltip {
 #play-button {
   width: 5rem;
   height: 5rem;
-  font-size: 10px;
+  font-size: 14px;
   font-family: "Roboto Slab", serif;
 }
 .current-date {
-  font-size: 10px;
+  font-size: 14px;
   font-family: "Roboto Slab", serif;
 }
 
@@ -123,7 +123,7 @@ div.tooltip {
   margin: auto;
   width: 50%;
   background-color: lightgray;
-  font-size: 10px;
+  font-size: 14px;
   font-family: "Roboto Slab", serif;
 }
 
