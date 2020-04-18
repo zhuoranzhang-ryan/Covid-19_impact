@@ -4,8 +4,8 @@ var margin = {
   right: 50,
   bottom: 50,
 };
-var svgHeight = 600;
-var svgWidth = 800;
+var svgHeight = 750;
+var svgWidth = 1000;
 var height = svgHeight - margin.top - margin.bottom;
 var width = svgWidth - margin.left - margin.right;
 var svg = d3
@@ -49,7 +49,7 @@ getData(mapfile).then((mapdata) => {
             var projection = d3
               .geoAlbersUsa()
               .translate([svgWidth / 2, svgHeight / 2])
-              .scale(900);
+              .scale(1200);
 
             var path = d3.geoPath().projection(projection);
 
@@ -92,7 +92,7 @@ getData(mapfile).then((mapdata) => {
               .append("g")
               .attr("class", "legend-covid")
               .attr("fill", "#777")
-              .attr("transform", "translate(550, 525)")
+              .attr("transform", "translate(700, 630)")
               .style("font", "10px sans-serif")
               .selectAll("g")
               .data([100000, 10000, 1000, 50])
