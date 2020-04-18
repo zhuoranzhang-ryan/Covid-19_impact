@@ -103,7 +103,7 @@ function createScatter(datesList, confirmedCases, unemploymentData, date) {
     },
     yaxis: {
       title: "Unemployment Claims (per week)",
-      range: [0, 500000],
+      range: [0, 1100000],
     },
   };
   Plotly.newPlot("scatter-plot", data, format, { displayModeBar: false });
