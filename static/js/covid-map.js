@@ -224,6 +224,18 @@ getData(mapfile).then((mapdata) => {
               
               // gg.call(zoom);
             });
+            circle_layer.addEventListener('change', function() {
+              if (this.checked) {
+                  track_date = +slider.value - 1;
+                  let index = slider.value - 1;
+                  let data = Object.values(response)[index];
+                  let dates = Object.keys(response);  
+                  output.innerHTML = `${dates[index]} (Day: ${index + 1})`;
+                  drawCircleLayer(confirmLayer, data, "covid-confirmed", projection);
+              } else {
+                  drawCircleLayer(confirmLayer, Object.values(response)[0], "covid-confirmed", projection);
+              }
+          })
             marker_layer.addEventListener("change", function () {
               if (this.checked) {
                 //tooltip
