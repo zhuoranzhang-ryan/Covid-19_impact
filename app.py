@@ -32,5 +32,11 @@ def updater():
     return render_template("index_ryan.html", text=date_text)
 
 
+@app.route("/about")
+def about():
+    # print("log: About page is to be run")
+    return render_template("about.html", )
+
+
 if __name__ == "__main__":
     app.run(debug=True)

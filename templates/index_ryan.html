@@ -26,19 +26,19 @@
                     <a class="nav-link" href="#">Data <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="/about">About</a>
                 </li>
-            
+
     </nav>
     <!--Nav-bar ends here-->
 
     <div class="container col-md-12" id="parent-container">
         <!-- Column for update data button -->
         <div class="col-md-12 text-center">
-                    <p><a class="btn btn-secondary btn-md" href="/update" role="button">Update Data</a></p>
-                    <p>
-                        <h5>Data updated as of: {{text}}</h5>
-                    </p>
+            <p><a class="btn btn-secondary btn-md" href="/update" role="button">Update Data</a></p>
+            <p>
+                <h5>Data updated as of: {{text}}</h5>
+            </p>
         </div>
 
         <!-- Column for US Map  -->
@@ -54,7 +54,6 @@
                 <div class="checkbox-container" id="checkbox_container">
                     <input type="checkbox" name="circle-layer" checked>COVID-19 Confirmed Cases <br>
                     <input type="checkbox" name="marker-layer">State Stats
-    
                 </div>
             </div>
 
@@ -66,17 +65,17 @@
                 </div>
                 <div class="col-md-12 text-center">
                     <h4 class="unemployment-header">Unemployment Claims vs Number of Confirmed Cases</h4>
-                <div id="scatter-plot"></div>
+                    <div id="scatter-plot"></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://d3js.org/d3.v5.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="//d3js.org/topojson.v1.min.js"></script>
-    <script src="../static/js/covid-map.js"></script>
-    <script src="../static/js/bar_chart.js"></script>
-    <script src="../static/js/scatter_plot.js"></script>
+        <script src="https://d3js.org/d3.v5.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="//d3js.org/topojson.v1.min.js"></script>
+        <script src="../static/js/covid-map.js"></script>
+        <script src="../static/js/bar_chart.js"></script>
+        <script src="../static/js/scatter_plot.js"></script>
 </body>
 
 
