@@ -57,10 +57,53 @@ h5 {
   margin: auto;
 }
 
-.slideContainer {
+div.tooltip {
+  position: absolute;
   text-align: center;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }
-
+.slider {
+  -webkit-appearance: none;
+  width: 50%;
+  height: 15px;
+  background: linear-gradient(
+    90deg,
+    rgb(214, 214, 214) 60%,
+    rgb(214, 214, 214) 60%
+  );
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  border-radius: 12px;
+  box-shadow: 0px 1px 10px 1px black;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.slider:hover {
+  opacity: 1;
+}
+.covid-confirmed {
+  /* fill: red; */
+  /* transition: fill 3s ease; */
+  stroke-width: 0.05;
+  stroke: seashell;
+  opacity: 0.7;
+}
 #play-button {
   width: 5rem;
   height: 5rem;
@@ -112,10 +155,18 @@ h4 {
 }
 
 /* CSS for comments  */
-#footnotes-container {
+#about-container {
   margin-top: 2rem;
   background-color: white !important;
-  padding: 0rem 0rem 0rem 2rem;
+  padding: 4rem;
+}
+
+h3 {
+  text-align: center;
+  font-size: 18px;
+  font-family: "Roboto Slab", serif;
+  font-weight: bold;
+  font-style: italic;
 }
 
 p {
@@ -126,52 +177,5 @@ p {
 ul {
   font-size: 15px;
   font-family: "Roboto Slab", serif;
-}
-
-div.tooltip {	
-    position: absolute;			
-    text-align: center;			
-    width: auto;					
-    height: auto;					
-    padding: 2px;				
-    font: 12px sans-serif;		
-    background: lightsteelblue;	
-    border: 0px;		
-    border-radius: 8px;			
-    pointer-events: none;			
-}
-.slider {
-  -webkit-appearance: none;
-  width: 50%;
-  height: 15px;
-  background: linear-gradient(
-    90deg,
-    rgb(214, 214, 214) 60%,
-    rgb(214, 214, 214) 60%
-  );
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-  border-radius: 12px;
-  box-shadow: 0px 1px 10px 1px black;
-}
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.slider:hover {
-  opacity: 1;
-}
-.covid-confirmed {
-  /* fill: red; */
-  /* transition: fill 3s ease; */
-  stroke-width: 0.05;
-  stroke: seashell;
-  opacity: 0.7;
+  padding-left: 2rem;
 }
