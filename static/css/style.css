@@ -59,9 +59,6 @@ h5 {
 
 .slideContainer {
   text-align: center;
-  /* padding: 10rem; */
-  /* margin-top: 1rem;
-  margin-left: 3rem; */
 }
 
 #play-button {
@@ -118,9 +115,15 @@ h4 {
 #footnotes-container {
   margin-top: 2rem;
   background-color: white !important;
+  padding: 0rem 0rem 0rem 2rem;
 }
 
 p {
-  font-size: 10px;
+  font-size: 15px;
+  font-family: "Roboto Slab", serif;
+}
+
+ul {
+  font-size: 15px;
   font-family: "Roboto Slab", serif;
 }
