@@ -64,11 +64,11 @@ h5 {
 #play-button {
   width: 5rem;
   height: 5rem;
-  font-size: 10px;
+  font-size: 14px;
   font-family: "Roboto Slab", serif;
 }
 .current-date {
-  font-size: 10px;
+  font-size: 14px;
   font-family: "Roboto Slab", serif;
 }
 
@@ -80,7 +80,7 @@ h5 {
   margin: auto;
   width: 50%;
   background-color: lightgray;
-  font-size: 10px;
+  font-size: 14px;
   font-family: "Roboto Slab", serif;
 }
 

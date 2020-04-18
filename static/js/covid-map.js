@@ -83,7 +83,7 @@ getData(mapfile).then((mapdata) => {
               .on("click", clicked);
 
             // Setting up correct values for slider bar.
-            var slider_max = Object.keys(response).length;
+            var slider_max = Object.keys(response).length-1;
             d3.select(".slider").attr("max", slider_max);
 
             // Setting up legend. only the color scale function is needed.
