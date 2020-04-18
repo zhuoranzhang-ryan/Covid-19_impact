@@ -11,54 +11,77 @@ html {
   font-size: 62.5%;
 }
 
-.navbar {
-  background-color: rgb(40, 51, 74) !important;
-  /* color: white; */
-  font-family: sans-serif;
-  font-size: 30px;
-  height: 150px;
-  /* background-color:wheat; */
-  /* width: 50%; */
-}
-
 body {
   background-color: rgb(245, 245, 245);
 }
 
+/* CSS for navbar */
+.navbar {
+  background-color: rgb(40, 51, 74) !important;
+  font-family: "Roboto Slab", serif;
+  font-size: 20px;
+  height: 8rem;
+  margin-bottom: 1rem;
+}
+
 .navbar-light .navbar-brand {
   color: white;
-  font-size: 50px;
+  font-size: 30px;
   padding: 0rem;
   padding-left: 4rem;
 }
 
-.nav-link {
-  color: white;
+a {
+  color: white !important;
 }
 
-#stacked_bar_chart {
-  border: solid;
-  border-width: 1px;
-  border-color: black;
-  /* margin:50px; */
-  /* padding:10px;   */
-  width: 100%;
-  height: 350px;
+/* CSS for update data button  */
+.btn {
+  font-size: 20px;
+  font-family: "Roboto Slab", serif;
 }
-#scatter-plot {
-  border: solid;
+
+h5 {
+  font-size: 10px;
+  font-family: "Roboto Slab", serif;
+}
+
+/* CSS for US Map */
+#map-container {
+  background-color: white;
+  padding: 0;
+}
+
+.map-svg {
+  display: block;
+  margin: auto;
+}
+
+.slideContainer {
+  text-align: center;
+}
+
+#play-button {
+  width: 5rem;
+  height: 5rem;
+  font-size: 10px;
+  font-family: "Roboto Slab", serif;
+}
+.current-date {
+  font-size: 10px;
+  font-family: "Roboto Slab", serif;
+}
+
+#checkbox_container {
+  border: sold;
   border-width: 1px;
   border-color: black;
-  /* margin:50px; */
-  /* padding:100px;   */
-  width: 100%;
-  height: 350px;
+  text-align: center;
+  margin: auto;
+  width: 50%;
   background-color: lightgray;
-}
-
-svg {
-  background: none;
-  width: 100%;
+  font-size: 10px;
+  font-family: "Roboto Slab", serif;
 }
 
 .state {
@@ -73,116 +96,34 @@ svg {
   stroke-width: 0.15;
   opacity: 0.7;
 }
-.map-layer {
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-}
 
-.covid-confirmed {
-  /* fill: red; */
-  /* transition: fill 3s ease; */
-  stroke-width: 0.05;
-  stroke: seashell;
-  opacity: 0.7;
-}
-
-#visualization-container {
-  height: 100%;
-}
-#visualization-container > .row {
-  height: 100%;
-}
-
-.slideContainer {
-  width: 400px;
-  margin-top: 10px;
-  margin-left: 250px;
-}
-
-/* .slider::after {
-    content: 'Day 100';
-    color: black;
-    font-size: 1rem;
-    position: absolute;
-    left: 72%;
-    bottom: 35%;
-  }
-  .slider::before {
-    content: 'Day 1';
-    color: black;
-    font-size: 1rem;
-    position: absolute;
-    left: 1%;
-    bottom: 35%; */
-/* } */
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 15px;
-  background: linear-gradient(
-    90deg,
-    rgb(214, 214, 214) 60%,
-    rgb(214, 214, 214) 60%
-  );
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-  border-radius: 12px;
-  box-shadow: 0px 1px 10px 1px black;
-}
-
-.slider:hover {
-  opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  cursor: pointer;
-}
-#US-map {
-  border: solid;
-  border-width: 1px;
-  border-color: black;
-  padding: 10px;
-  margin: 10px;
-  background-color: wheat;
-}
-.container {
-  border: solid;
-  border-width: 1px;
-  border-color: black;
-  /* margin:auto; */
-  padding: 5px;
-}
-
+/* CSS for barchart and scatter plot */
 #charts-container {
-  background-color: thistle;
-  width: 95%;
+  padding: 0;
 }
-#map-container {
-  background-color: wheat;
-  height: 120rem;
+
+h4 {
+  background-color: rgb(40, 51, 74);
+  color: White;
+  text-align: center;
+  font-size: 18px;
+  font-family: "Roboto Slab", serif;
+  font-weight: bold;
 }
+
+/* CSS for comments  */
 #footnotes-container {
-  border: solid;
-  border-color: black;
-  border-width: 1px;
-  background-color: beige;
+  margin-top: 2rem;
+  background-color: white !important;
+  padding: 0rem 0rem 0rem 2rem;
 }
-#checkbox_container {
-  border: solid;
-  border-width: 1px;
-  border-color: black;
-  margin:auto;
-  /* padding:100px;   */
-  width: 50%;
-  /* height: 350px; */
-  background-color: lightgray;
+
+p {
+  font-size: 15px;
+  font-family: "Roboto Slab", serif;
+}
+
+ul {
+  font-size: 15px;
+  font-family: "Roboto Slab", serif;
 }

@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>worldmap</title>
+    <!-- <link rel="stylesheet" href="./static/css/map-style.css" /> -->
+    <link rel="stylesheet" href="./static/css/style.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='css/style.css') }}"
+    />
+    <link rel="stylesheet" href="./static/css/tooltip.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>worldmap</title>
-  <link rel="stylesheet" href="./static/css/map-style.css" />
-  <link rel="stylesheet" href="./static/css/style.css" />
-  <link rel="stylesheet" href="./static/css/tooltip.css" />
-
-
-</head>
-
-<body>
-  <div id="US-map"></div>
-  <div class="slideContainer">
-    <button type="button" id="play-button">play</button>
-    <span><input type="range" min="1" , max="100" value="1" id="myRange" class="slider"></span>
-    <p>Date: <span id="value"></span></p>
-  </div>
-  <div class="checkbox-container">
-    <input type="checkbox" name="circle-layer" checked>Covid-19 confirmed cases <br>
-    <input type="checkbox" name="marker-layer">State stats
-
-  </div>
-  <div class="parent-container1">
-    <div class="container" id="scatter"></div>
-    <!--bar chart container ends here-->
-  </div>
-  <div class="parent-container2">
-    <div class="container" id="stacked_bar_chart">
-
+  <body>
+    <div id="US-map"></div>
+    <div class="slideContainer">
+      <button type="button" id="play-button">play</button>
+      <span
+        ><input
+          type="range"
+          min="1"
+          ,
+          max="100"
+          value="1"
+          id="myRange"
+          class="slider"
+      /></span>
+      <p>Date: <span id="value"></span></p>
     </div>
-    <!--bar chart container ends here-->
-  </div>
+    <div class="checkbox-container">
+      <input type="checkbox" name="circle-layer" checked />Covid-19 confirmed
+      <!-- cases <br />
+      <input type="checkbox" name="marker-layer" />State stats -->
+    </div>
+    <div class="parent-container1">
+      <div class="container" id="scatter"></div>
+      <!--bar chart container ends here-->
+    </div>
+    <div class="parent-container2">
+      <div class="container" id="stacked_bar_chart"></div>
+      <!--bar chart container ends here-->
+    </div>
 
-  <script src="https://d3js.org/d3.v5.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="//d3js.org/topojson.v1.min.js"></script>
-  <script src="static/js/covid-map.js"></script>
-  <script src="./static/js/scatter_plot.js"></script>
-  <script src="static/js/bar_chart.js"></script>
-  <!-- <script src="static/js/overlay.js"></script> -->
-
-</body>
-
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="//d3js.org/topojson.v1.min.js"></script>
+    <script src="static/js/covid-map.js"></script>
+    <script src="./static/js/scatter_plot.js"></script>
+    <script src="static/js/bar_chart.js"></script>
+    <!-- <script src="static/js/overlay.js"></script> -->
+  </body>
 </html>
