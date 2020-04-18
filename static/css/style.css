@@ -142,7 +142,7 @@ div.tooltip {
 }
 .slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 50%;
   height: 15px;
   background: linear-gradient(
     90deg,
