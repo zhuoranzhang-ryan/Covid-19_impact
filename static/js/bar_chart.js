@@ -87,154 +87,6 @@ function sumCasesPerState(array) {
   return statesWithTotalCases;
 }
 
-// function createBarChart(dateString, covidData) {
-//     // console.log(covidData);
-
-//     sortedCovidData = sort_object(covidData);
-
-//     var xValues = [];
-//     var yValues = [];
-
-//     // Populate x and y values
-//     Object.entries(sortedCovidData).forEach(function ([state, cases]) {
-//         xValues.push(state);
-//         yValues.push(cases);
-//     });
-
-//     console.log(xValues);
-//     console.log(yValues);
-
-//     // console.log(Math.max.apply(Math, yValues));
-
-//     var trace = {
-//         x: yValues.slice(0, 16),
-//         y: xValues.slice(0, 16),
-//         type: "scatter",
-//         orientation: "h",
-//         name: "confirmedCases",
-//         // text: labels,
-//         marker: {
-//             color: "rgba(50,171,96,0.6)",
-//             line: {
-//                 color: "rgba(50,171,96,1.0)",
-//                 width: 0,
-//             },
-//         },
-//         hovertemplate: "Confirmed: %{x}<br>" + "<extra></extra>",
-//     };
-//     var layout = {
-//         title: `Top 15 states with confirmed cases on ${dateString}`,
-//         margin: {
-//             l: 120,
-//             r: 20,
-//             t: 30,
-//             b: 40,
-//         },
-//         yaxis: {
-//             autorange: "reversed",
-//             ticks: "outside",
-//             ticklen: 10,
-//             tickcolor: "white",
-//             linecolor: "gray",
-//             linewidth: 0.01,
-//             mirror: true,
-//         },
-//         xaxis: {
-//             // tickformat: ',.0%',
-//             range: [0, Math.max.apply(Math, yValues)],
-//             // side: "top",
-//             tickmode: "linear",
-//             tick0: 0,
-//             dtick: Math.round(Math.max.apply(Math, yValues) / 5),
-//             border: 1,
-//             linecolor: "gray",
-//             linewidth: 0.5,
-//             mirror: true,
-//         },
-//     };
-
-//     var data = [trace];
-
-//     Plotly.newPlot("scatter", data, layout, { displayModeBar: false });
-//     // console.log(statesWithTotalCases);
-
-//     return statesWithTotalCases;
-// }
-
-// function createBarChart(dateString, covidData) {
-//     // console.log(covidData);
-
-//     sortedCovidData = (sort_object(covidData));
-//     // sortedCovidData = ((covidData));
-
-//     var xValues = [];
-//     var yValues = [];
-
-//     // Populate x and y values
-//     Object.entries(sortedCovidData).forEach(function ([state, cases]) {
-//         xValues.push(state);
-//         yValues.push(cases);
-//     });
-
-//     console.log(xValues);
-//     console.log(yValues);
-
-//     // console.log(Math.max.apply(Math, yValues));
-
-//     var trace = {
-//         x: yValues.slice(0, 16),
-//         y: xValues.slice(0, 16),
-//         type: "bar",
-//         orientation: "h",
-//         name: "confirmedCases",
-//         // text: labels,
-//         marker: {
-//             color: 'rgba(50,171,96,0.6)',
-//             line: {
-//                 color: 'rgba(50,171,96,1.0)',
-//                 width: 0
-//             }
-//         },
-//         hovertemplate:
-//             "Confirmed: %{x}<br>" +
-//             "<extra></extra>"
-//     }
-//     var layout = {
-//         title: `Top 15 states with confirmed cases on ${dateString}`,
-//         margin: {
-//             l: 120,
-//             r: 20,
-//             t: 30,
-//             b: 40
-//         },
-//         yaxis: {
-//             autorange: "reversed",
-//             ticks: "outside",
-//             ticklen: 10,
-//             tickcolor: "white",
-//             linecolor: 'gray',
-//             linewidth: 0.01,
-//             mirror: true
-//         },
-//         xaxis: {
-//             // tickformat: ',.0%',
-//             range: [0, Math.max.apply(Math, yValues)],
-//             // side: "top",
-//             tickmode: "linear",
-//             tick0: 0,
-//             dtick: Math.round(Math.max.apply(Math, yValues) / 5),
-//             border: 1,
-//             linecolor: 'gray',
-//             linewidth: 0.5,
-//             mirror: true
-//         }
-//     };
-
-//     var data = [trace];
-
-//     Plotly.newPlot("stacked_bar_chart", data, layout, { displayModeBar: false });
-// }
-// source: https://bit.ly/3bYZ2NY
 function sort_object(obj) {
   var items = Object.keys(obj).map(function (key) {
     return [key, obj[key]];
@@ -289,7 +141,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
     bar_colors.push("#FF0000");
     labels.push(
       `Count:${cases[0] + cases[1]}<br>Confirmed: ${cases[0]}<br>Deaths: ${
-        cases[1]
+      cases[1]
       }`
     );
   });
@@ -301,6 +153,8 @@ function createStackedBarChart(dateString, sortedCovidData) {
   var yValues = stateNames.slice(0, 11);
   var labels = confirmed.slice(0, 11);
 
+  // In the sliced array, find all arrays with non-zero values
+  // To display only those states which have any confirmed cases
   var last_state_index = xValues.indexOf(0);
 
   if (last_state_index > 0) {
@@ -379,6 +233,7 @@ function createStackedBarChart(dateString, sortedCovidData) {
     },
   };
 
+  // Set-up location for annotated numbers
   for (var i = 0; i < xValues.length; i++) {
     var result = {
       x: xValues[i] + 0.1,
@@ -431,56 +286,56 @@ function createStackedBarChart(dateString, sortedCovidData) {
   });
 }
 
-function initializeDashboard(idx) {
-  d3.json(confirmedCases).then(function (confirmedData) {
-    d3.json(recoveredCases).then(function (recoveredData) {
-      d3.json(deathCases).then(function (deathsData) {
-        console.log(confirmedData);
-        console.log(recoveredData);
-        console.log(deathsData);
+// function initializeDashboard(idx) {
+//   d3.json(confirmedCases).then(function (confirmedData) {
+//     d3.json(recoveredCases).then(function (recoveredData) {
+//       d3.json(deathCases).then(function (deathsData) {
+//         console.log(confirmedData);
+//         console.log(recoveredData);
+//         console.log(deathsData);
 
-        var totalDays = Object.keys(confirmedData).length;
+//         var totalDays = Object.keys(confirmedData).length;
 
-        var dateString = Object.keys(confirmedData)[idx];
+//         var dateString = Object.keys(confirmedData)[idx];
 
-        var records = Object.values(confirmedData)[idx];
-        var sumOfConfirmed = sumCasesPerState(records);
+//         var records = Object.values(confirmedData)[idx];
+//         var sumOfConfirmed = sumCasesPerState(records);
 
-        var records = Object.values(recoveredData)[idx];
-        var sumOfRecovered = sumCasesPerState(records);
+//         var records = Object.values(recoveredData)[idx];
+//         var sumOfRecovered = sumCasesPerState(records);
 
-        var records = Object.values(deathsData)[idx];
-        var sumOfDeaths = sumCasesPerState(records);
+//         var records = Object.values(deathsData)[idx];
+//         var sumOfDeaths = sumCasesPerState(records);
 
-        // Combine all data together in a dictionary
-        var allCasesPerStateDict = {};
+//         // Combine all data together in a dictionary
+//         var allCasesPerStateDict = {};
 
-        Object.keys(sumOfConfirmed).forEach(function (state) {
-          allCasesPerStateDict[state] = [
-            sumOfConfirmed[state],
-            sumOfDeaths[state],
-          ];
-        });
-        console.log(allCasesPerStateDict);
+//         Object.keys(sumOfConfirmed).forEach(function (state) {
+//           allCasesPerStateDict[state] = [
+//             sumOfConfirmed[state],
+//             sumOfDeaths[state],
+//           ];
+//         });
+//         console.log(allCasesPerStateDict);
 
-        // // Sort allCasesPerStateDict by number of Confirmed Cases
-        var sortedAllCasesPerStateDict = sortDictionary(allCasesPerStateDict);
-        console.log(sortedAllCasesPerStateDict);
+//         // // Sort allCasesPerStateDict by number of Confirmed Cases
+//         var sortedAllCasesPerStateDict = sortDictionary(allCasesPerStateDict);
+//         console.log(sortedAllCasesPerStateDict);
 
-        var sortedSumOfAllCasesPerStateDict = {};
+//         var sortedSumOfAllCasesPerStateDict = {};
 
-        Object.keys(sortedAllCasesPerStateDict).forEach(function (state) {
-          sortedSumOfAllCasesPerStateDict[state] =
-            sortedAllCasesPerStateDict[state][0] +
-            sortedAllCasesPerStateDict[state][1];
-        });
-        console.log(sortedSumOfAllCasesPerStateDict);
+//         Object.keys(sortedAllCasesPerStateDict).forEach(function (state) {
+//           sortedSumOfAllCasesPerStateDict[state] =
+//             sortedAllCasesPerStateDict[state][0] +
+//             sortedAllCasesPerStateDict[state][1];
+//         });
+//         console.log(sortedSumOfAllCasesPerStateDict);
 
-        createStackedBarChart(dateString, sortedAllCasesPerStateDict);
-      });
-    });
-  });
-}
+//         createStackedBarChart(dateString, sortedAllCasesPerStateDict);
+//       });
+//     });
+//   });
+// }
 
 function initializeBarchart(idx, confirmedData, recoveredData, deathsData) {
   var totalDays = Object.keys(confirmedData).length;
