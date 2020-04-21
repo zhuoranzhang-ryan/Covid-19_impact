@@ -16,7 +16,7 @@ def index():
 
     date_text = list(covid_data.keys())[-1]
 
-    return render_template("index_ryan.html", text=date_text)
+    return render_template("index.html", text=date_text)
 
 
 @app.route("/update")
@@ -29,7 +29,7 @@ def updater():
 
     date_text = list(covid_data.keys())[-1]
 
-    return render_template("index_ryan.html", text=date_text)
+    return render_template("index.html", text=date_text)
 
 
 @app.route("/about")
